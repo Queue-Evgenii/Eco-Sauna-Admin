@@ -1,0 +1,15 @@
+
+export const RouteName = {
+    SITE: {
+        ROOT: "site_root",
+        DASHBOARD: "dashboard",
+        SETTINGS: "settings"
+    },
+
+    AUTH: {
+        SIGN_IN: "sign-in",
+    },
+
+    NOT_FOUND: "not-found",
+    FORBIDDEN: "forbidden",
+} as const;

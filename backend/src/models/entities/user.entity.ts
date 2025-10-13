@@ -20,4 +20,9 @@ export class User {
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   createdAt: Date;
+
+  toJSON() {
+    const { password, ...rest } = this;
+    return rest;
+  }
 }
