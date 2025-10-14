@@ -2,6 +2,7 @@ import { RouteName } from "../../types/constants/route-name";
 import { commonRoutes } from "./common.routes";
 
 export const siteRoutes = [
+    ...commonRoutes,
     {
         path: "/auth/sign-in",
         name: RouteName.AUTH.SIGN_IN,
@@ -11,7 +12,6 @@ export const siteRoutes = [
         path: "/",
         component: () => import("../../views/site/index.vue"),
         children: [
-            ...commonRoutes,
             {
                 path: "",
                 name: RouteName.SITE.ROOT,
