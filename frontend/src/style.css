@@ -1,0 +1,14 @@
+._header {
+    background-color: #291b0f;
+}
+
+._container {
+    max-width: 1920px;
+    padding: 16px 24px;
+}
+
+@media (max-width: 768px) {
+    ._container {
+        padding: 12px 10px;
+    }
+}

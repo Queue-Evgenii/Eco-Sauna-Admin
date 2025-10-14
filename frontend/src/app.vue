@@ -1,12 +1,22 @@
 <script setup lang="ts">
+import { inject } from 'vue';
 import { RouterView } from 'vue-router';
+import { useUserStore } from './stores/user';
+import type { UserApi } from './api/modules/user';
 
 const themeOverrides = {
   common: {
     warningColor: 'rgb(240, 160, 32)'
   },
-}
+};
 
+(async () => {
+  const userStore = useUserStore();
+  const userApi = inject<UserApi>('UserApi')!;
+
+  const res = await userApi.getMe();
+  userStore.setUser(res);
+})();
 </script>
 
 <template>

@@ -68,11 +68,7 @@ const selectedKey = computed(() => route.name);
     <div style="display: flex; flex-direction: column; height: 100vh;">
         <n-space
             vertical
-            style="
-                max-width: 1920px;
-                padding: 16px 24px;
-                background-color: #291b0f;
-            "
+            class="_container _header"
         >
             <n-flex :align="'center'" justify="space-between">
                 <n-flex :align="'center'">
@@ -113,7 +109,7 @@ const selectedKey = computed(() => route.name);
                 />
             </n-layout-sider>
 
-            <n-layout-content style="padding: 16px 24px; flex:1;">
+            <n-layout-content class="_container">
                 <slot></slot>
             </n-layout-content>
         </n-layout>
