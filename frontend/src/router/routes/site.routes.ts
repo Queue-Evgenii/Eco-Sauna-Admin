@@ -27,6 +27,16 @@ export const siteRoutes = [
                 component: () => import("../../views/site/settings/index.vue"),
                 name: RouteName.SITE.SETTINGS,
             },
+            {
+                path: "products",
+                component: () => import("../../views/site/products/index.vue"),
+                name: RouteName.SITE.PRODUCTS,
+            },
+            {
+                path: "orders",
+                component: () => import("../../views/site/orders/index.vue"),
+                name: RouteName.SITE.ORDERS,
+            },
         ],
     },
 ];

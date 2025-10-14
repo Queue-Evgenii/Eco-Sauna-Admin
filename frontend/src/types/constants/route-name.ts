@@ -3,7 +3,9 @@ export const RouteName = {
     SITE: {
         ROOT: "site_root",
         DASHBOARD: "dashboard",
-        SETTINGS: "settings"
+        SETTINGS: "settings",
+        PRODUCTS: "products",
+        ORDERS: "orders"
     },
 
     AUTH: {

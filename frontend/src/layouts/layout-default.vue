@@ -9,8 +9,11 @@ import {
     WarningFilled,
     DashboardOutlined,
     SettingsFilled,
+    ShoppingCartFilled,
+    ViewListFilled,
 } from "@vicons/material";
 import { useThemeVars } from "naive-ui";
+import { useDevice } from "../composables/use-device";
 
 const isConfirmationVisible = ref(false);
 const store = useUserStore();
@@ -18,7 +21,8 @@ const router = useRouter();
 const route = useRoute();
 const themeVars = useThemeVars();
 
-// Логика выхода
+const { isMobile } = useDevice()
+
 const logout = () => {
     store.clearState();
     Token.remove();
@@ -32,14 +36,24 @@ const openLogoutDialog = () => {
 
 const menuItems = [
     {
-        label: "Dashboard",
+        label: () => ((!isMobile.value || (isMobile.value && selectedKey.value === RouteName.SITE.DASHBOARD)) ? "Dashboard" : ""),
         key: RouteName.SITE.DASHBOARD,
-        icon: () => h(DashboardOutlined),
+        icon: DashboardOutlined,
     },
     {
-        label: "Settings",
+        label: () => ((!isMobile.value || (isMobile.value && selectedKey.value === RouteName.SITE.SETTINGS)) ? "Settings" : ""),
         key: RouteName.SITE.SETTINGS,
-        icon: () => h(SettingsFilled),
+        icon: SettingsFilled,
+    },
+    {
+        label: () => ((!isMobile.value || (isMobile.value && selectedKey.value === RouteName.SITE.PRODUCTS)) ? "Sauna" : ""),
+        key: RouteName.SITE.PRODUCTS,
+        icon: ViewListFilled,
+    },
+    {
+        label: () => ((!isMobile.value || (isMobile.value && selectedKey.value === RouteName.SITE.ORDERS)) ? "Orders" : ""),
+        key: RouteName.SITE.ORDERS,
+        icon: ShoppingCartFilled,
     },
 ];
 
@@ -51,7 +65,7 @@ const selectedKey = computed(() => route.name);
 </script>
 
 <template>
-    <div style="display: flex; flex-direction: column;">
+    <div style="display: flex; flex-direction: column; height: 100vh;">
         <n-space
             vertical
             style="
@@ -80,45 +94,83 @@ const selectedKey = computed(() => route.name);
                 </n-flex>
             </n-flex>
         </n-space>
-        <n-layout has-sider style="flex:1 1 100%">
-            <n-layout-sider bordered width="220">
+
+        <n-layout has-sider style="flex:1 1 100%; position: relative;">
+            <n-layout-sider
+                v-if="!isMobile"
+                bordered
+                width="220"
+            >
                 <n-menu
-                    :options="menuItems"
+                    :options="menuItems.map(i => ({
+                        label: i.label,
+                        key: i.key,
+                        icon: () => h(i.icon),
+                    }))"
                     :value="selectedKey"
                     @update:value="handleMenuSelect"
                     :collapsed-width="64"
                 />
             </n-layout-sider>
 
-            <n-layout-content style="padding: 16px 24px">
+            <n-layout-content style="padding: 16px 24px; flex:1;">
                 <slot></slot>
             </n-layout-content>
         </n-layout>
-    </div>
 
-    <n-modal
-        v-model:show="isConfirmationVisible"
-        title="Log Out"
-        preset="dialog"
-    >
-        <template #icon>
-            <WarningFilled :style="{ color: themeVars.warningColor }" />
-        </template>
         <div
+            v-if="isMobile"
             style="
                 display: flex;
-                flex-direction: column;
-                gap: 1rem;
-                margin-top: 16px;
+                justify-content: space-around;
+                align-items: center;
+                border-top: 1px solid #ccc;
+                border-radius: 30px 30px 0 0;
+                background-color: white;
+                padding: 6px 0;
+                position: sticky;
+                bottom: 0;
+                z-index: 100;
             "
         >
-            <p>Are you sure?</p>
-            <div style="display: flex; justify-content: flex-end; gap: 0.5rem">
-                <n-button @click="isConfirmationVisible = false"
-                    >Cancel</n-button
-                >
-                <n-button type="warning" @click="logout">Log Out</n-button>
-            </div>
+            <n-menu
+                :options="menuItems.map(i => ({
+                    label: i.label,
+                    key: i.key,
+                    icon: () => h(i.icon),
+                }))"
+                mode="horizontal"
+                :value="selectedKey"
+                @update:value="handleMenuSelect"
+                :collapsed-width="64"
+                style="width: auto;"
+            />
         </div>
-    </n-modal>
+
+        <n-modal
+            v-model:show="isConfirmationVisible"
+            title="Log Out"
+            preset="dialog"
+        >
+            <template #icon>
+                <WarningFilled :style="{ color: themeVars.warningColor }" />
+            </template>
+            <div
+                style="
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
+                    margin-top: 16px;
+                "
+            >
+                <p>Are you sure?</p>
+                <div style="display: flex; justify-content: flex-end; gap: 0.5rem">
+                    <n-button @click="isConfirmationVisible = false"
+                        >Cancel</n-button
+                    >
+                    <n-button type="warning" @click="logout">Log Out</n-button>
+                </div>
+            </div>
+        </n-modal>
+    </div>
 </template>
