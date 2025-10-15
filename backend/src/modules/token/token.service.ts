@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt'
+import { JwtService } from '@nestjs/jwt';
 import { TokenPayload } from 'src/models/token-payload';
 import { TokenStrategy } from './token.strategy';
 

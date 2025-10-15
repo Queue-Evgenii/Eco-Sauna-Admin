@@ -25,10 +25,8 @@ export class UserController {
 
     const token = header.split(' ')[1];
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const payload = this.tokenService.decodeToken(token);
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
     return this.userService.findByEmail(payload.email);
   }
 }

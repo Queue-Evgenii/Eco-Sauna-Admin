@@ -17,7 +17,7 @@ import { User } from 'src/models/entities/user.entity';
       secret: 'supersecretkey',
       signOptions: { expiresIn: '1d' },
     }),
-    TypeOrmModule.forFeature([User])
+    TypeOrmModule.forFeature([User]),
   ],
 })
 export class AuthModule {}

@@ -1,5 +1,5 @@
 export interface TokenPayload {
-  sub: number,
+  sub: number;
 
-  email: string,
+  email: string;
 }
