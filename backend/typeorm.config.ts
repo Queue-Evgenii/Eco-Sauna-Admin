@@ -3,7 +3,7 @@ import { config } from 'dotenv';
 
 config();
 
-export default new DataSource({
+const TypeOrmDataSource = new DataSource({
   type: 'postgres',
   host: process.env.POSTGRES_HOST ?? 'localhost',
   port: parseInt(process.env.POSTGRES_PORT ?? '5432', 10),
@@ -12,4 +12,7 @@ export default new DataSource({
   database: process.env.POSTGRES_DB,
   entities: [__dirname + '/src/models/entities/**/*{.entity.ts,.entity.js}'],
   migrations: [__dirname + '/src/migrations/**/*{.ts,.js}'],
+  synchronize: false,
 });
+
+export default TypeOrmDataSource;

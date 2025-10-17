@@ -9,6 +9,8 @@ async function bootstrap() {
     cors: true,
   });
 
+  app.setGlobalPrefix('api');
+
   const port = process.env.BACKEND_PORT ?? 3000;
   console.log(__dirname);
   await app.listen(port);
