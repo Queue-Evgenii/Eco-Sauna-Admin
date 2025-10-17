@@ -2,17 +2,13 @@ import { reactive, computed } from "vue";
 import { Locale } from "../types/models/utils/browser/locale";
 import type { Translations } from "./translations";
 
-export type Language = "ru" | "en";
-
-const localeMap: Record<
-    Language,
-    () => Promise<{ default: new () => Translations }>
-> = {
-    ru: () => import("./locales/ru"),
-    en: () => import("./locales/en"),
-};
+export type Language = string;
 
 export class TranslationsManager {
+    private localeModules: Record<
+        string,
+        () => Promise<{ default: new () => Translations }>
+    >;
     private state = reactive({
         locale: (Locale.get() as Language) || "ru",
         instance: null as Translations | null,
@@ -20,39 +16,57 @@ export class TranslationsManager {
         loaded: false,
     });
 
-    public readonly t = computed<Translations | null>(
-        () => this.state.instance,
-    );
-    public readonly locale = computed(() => this.state.locale);
-    public readonly loading = computed(() => this.state.loading);
-    public readonly availableLocales = Object.keys(localeMap) as Language[];
-
     constructor() {
+        this.localeModules = import.meta.glob("./locales/*.ts", {
+            eager: false,
+        }) as Record<
+            string,
+            () => Promise<{ default: new () => Translations }>
+        >;
+        this.availableLocales = Object.keys(this.localeModules).map(
+            (path) => path.match(/\.\/locales\/(.*)\.ts$/)![1],
+        );
+
         this.load = this.load.bind(this);
         this.setLocale = this.setLocale.bind(this);
 
         this.load(this.state.locale);
     }
 
-    async load(locale: Language) {
+    public readonly t = computed<Translations | null>(
+        () => this.state.instance,
+    );
+    public readonly locale = computed(() => this.state.locale);
+    public readonly loading = computed(() => this.state.loading);
+    public readonly availableLocales;
+
+    public async load(locale: Language) {
         if (this.state.loading) return;
+
+        const loader = this.localeModules[`./locales/${locale}.ts`];
+        if (!loader) {
+            console.error(`[TranslationsManager] Locale "${locale}" not found`);
+            return;
+        }
 
         this.state.loading = true;
         try {
-            const module = await localeMap[locale]();
+            const module = await loader();
             this.state.instance = new module.default();
             this.state.locale = locale;
             Locale.set(locale);
             this.state.loaded = true;
         } catch (err) {
-            console.error(`[TranslationsManager] Failed to load ${locale}`, err);
+            console.error(
+                `[TranslationsManager] Failed to load ${locale}`,
+                err,
+            );
         } finally {
             this.state.loading = false;
         }
     }
 
-    async setLocale(locale: Language) {
-        console.log(this);
+    public async setLocale(locale: Language) {
         if (locale !== this.state.locale) {
             await this.load(locale);
         }
