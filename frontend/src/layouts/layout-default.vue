@@ -16,12 +16,15 @@ import { useThemeVars } from "naive-ui";
 import { useDevice } from "../composables/use-device";
 import type { TranslationsManager } from "../i18n/manager";
 import { TranslationsSymbol } from "../i18n";
+import LocaleSwitcher from "../components/ui/locale-switcher.vue";
 
 const isConfirmationVisible = ref(false);
 const store = useUserStore();
 const router = useRouter();
 const route = useRoute();
 const themeVars = useThemeVars();
+
+const { t } = inject<TranslationsManager>(TranslationsSymbol)!;
 
 const { isMobile } = useDevice()
 
@@ -38,24 +41,24 @@ const openLogoutDialog = () => {
 
 const menuItems = [
     {
-        label: () => ((!isMobile.value || (isMobile.value && selectedKey.value === RouteName.SITE.DASHBOARD)) ? "Dashboard" : ""),
+        label: () => ((!isMobile.value || (isMobile.value && selectedKey.value === RouteName.SITE.DASHBOARD)) ? t.value?.dashboard : ""),
         key: RouteName.SITE.DASHBOARD,
         icon: DashboardOutlined,
     },
     {
-        label: () => ((!isMobile.value || (isMobile.value && selectedKey.value === RouteName.SITE.SETTINGS)) ? "Settings" : ""),
-        key: RouteName.SITE.SETTINGS,
-        icon: SettingsFilled,
-    },
-    {
-        label: () => ((!isMobile.value || (isMobile.value && selectedKey.value === RouteName.SITE.PRODUCTS)) ? "Sauna" : ""),
+        label: () => ((!isMobile.value || (isMobile.value && selectedKey.value === RouteName.SITE.PRODUCTS)) ? t.value?.products : ""),
         key: RouteName.SITE.PRODUCTS,
         icon: ViewListFilled,
     },
     {
-        label: () => ((!isMobile.value || (isMobile.value && selectedKey.value === RouteName.SITE.ORDERS)) ? "Orders" : ""),
+        label: () => ((!isMobile.value || (isMobile.value && selectedKey.value === RouteName.SITE.ORDERS)) ? t.value?.orders : ""),
         key: RouteName.SITE.ORDERS,
         icon: ShoppingCartFilled,
+    },
+    {
+        label: () => ((!isMobile.value || (isMobile.value && selectedKey.value === RouteName.SITE.SETTINGS)) ? t.value?.settings : ""),
+        key: RouteName.SITE.SETTINGS,
+        icon: SettingsFilled,
     },
 ];
 
@@ -64,13 +67,6 @@ const handleMenuSelect = (key: string) => {
 };
 
 const selectedKey = computed(() => route.name);
-
-const { t, availableLocales, setLocale, locale } = inject<TranslationsManager>(TranslationsSymbol)!;
-
-const localeOptions = computed(() => availableLocales.map(locale => ({
-    label: locale.toUpperCase(),
-    value: locale
-})))
 </script>
 
 <template>
@@ -94,9 +90,9 @@ const localeOptions = computed(() => availableLocales.map(locale => ({
                                 "
                             />
                         </template>
-                        {{ t?.goodbye }}
+                        {{ t?.logout }}
                     </n-button>
-                    <n-select :value="locale" @update:value="setLocale" :options="localeOptions"></n-select>
+                    <locale-switcher />
                 </n-flex>
             </n-flex>
         </n-space>
@@ -155,7 +151,7 @@ const localeOptions = computed(() => availableLocales.map(locale => ({
 
         <n-modal
             v-model:show="isConfirmationVisible"
-            title="Log Out"
+            :title="t?.logout"
             preset="dialog"
         >
             <template #icon>
@@ -169,12 +165,12 @@ const localeOptions = computed(() => availableLocales.map(locale => ({
                     margin-top: 16px;
                 "
             >
-                <p>Are you sure?</p>
+                <p>{{ t?.r_u_sure }}</p>
                 <div style="display: flex; justify-content: flex-end; gap: 0.5rem">
                     <n-button @click="isConfirmationVisible = false"
-                        >Cancel</n-button
+                        >{{ t?.cancel }}</n-button
                     >
-                    <n-button type="warning" @click="logout">Log Out</n-button>
+                    <n-button type="warning" @click="logout">{{ t?.logout }}</n-button>
                 </div>
             </div>
         </n-modal>

@@ -1,37 +1,36 @@
 <script setup lang="ts">
 import { AddBoxOutlined, BookmarkBorderOutlined } from '@vicons/material';
 import { RouteName } from '../../../types/constants/route-name';
-import OrdersTable from '../../../components/orders-table.vue';
+import OrdersTable from '../../../components/content/orders-table.vue';
+import { inject } from 'vue';
+import { TranslationsSymbol } from '../../../i18n';
+import type { TranslationsManager } from '../../../i18n/manager';
 
+const { t } = inject<TranslationsManager>(TranslationsSymbol)!;
 </script>
 
 <template>
     <n-space vertical>
-        <n-flex>
-            <router-link :to="{ name: RouteName.SITE.PRODUCTS }" style="flex: 1 1 auto;">
-                <n-button ghost type="default" size="large" style="width: 100%;">
-                    <template #icon>
-                        <AddBoxOutlined
-                            style="
-                                vertical-align: middle;
-                                transform: translateY(1px);
-                            "
-                        />
-                    </template>
-                    Products: 15
+        <n-flex justify="space-between" align="stretch" style="gap: 8px;">
+            <router-link :to="{ name: RouteName.SITE.PRODUCTS }" style="flex: 1;">
+                <n-button ghost type="default" size="large" style="width: 100%; height: 100%;">
+                <template #icon>
+                    <AddBoxOutlined
+                    style="vertical-align: middle; transform: translateY(1px);"
+                    />
+                </template>
+                {{ t?.products }}: 15
                 </n-button>
             </router-link>
-            <router-link :to="{ name: RouteName.SITE.ORDERS }" style="flex: 1 1 auto;">
-                <n-button ghost type="default" size="large" style="width: 100%;">
-                    <template #icon>
-                        <BookmarkBorderOutlined
-                            style="
-                                vertical-align: middle;
-                                transform: translateY(1px);
-                            "
-                        />
-                    </template>
-                    Orders: 189
+
+            <router-link :to="{ name: RouteName.SITE.ORDERS }" style="flex: 1;">
+                <n-button ghost type="default" size="large" style="width: 100%; height: 100%;">
+                <template #icon>
+                    <BookmarkBorderOutlined
+                    style="vertical-align: middle; transform: translateY(1px);"
+                    />
+                </template>
+                {{ t?.orders }}: 189
                 </n-button>
             </router-link>
         </n-flex>

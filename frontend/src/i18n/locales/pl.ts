@@ -1,8 +1,14 @@
 import { Translations } from "../translations";
 
-export default class EnTranslations extends Translations {
-    readonly hello = "Hello pl";
-    readonly goodbye = "Goodbye pl";
-    readonly settings = "Settings pl";
-    readonly save = "Save pl";
+export default class PlTranslations extends Translations {
+    readonly cancel = "Anuluj";
+    readonly r_u_sure = "Czy na pewno?";
+    
+    readonly logout = "Wyloguj się";
+    readonly login = "Zaloguj się";
+
+    readonly dashboard = "Panel";
+    readonly products = "Sauny";
+    readonly orders = "Zamówienia";
+    readonly settings = "Ustawienia";
 }

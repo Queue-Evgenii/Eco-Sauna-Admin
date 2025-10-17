@@ -25,7 +25,7 @@ export class TranslationsManager {
         >;
         this.availableLocales = Object.keys(this.localeModules).map(
             (path) => path.match(/\.\/locales\/(.*)\.ts$/)![1],
-        );
+        ).filter(e => e !== undefined);
 
         this.load = this.load.bind(this);
         this.setLocale = this.setLocale.bind(this);
@@ -38,7 +38,7 @@ export class TranslationsManager {
     );
     public readonly locale = computed(() => this.state.locale);
     public readonly loading = computed(() => this.state.loading);
-    public readonly availableLocales;
+    public readonly availableLocales: ReadonlyArray<string>;
 
     public async load(locale: Language) {
         if (this.state.loading) return;
