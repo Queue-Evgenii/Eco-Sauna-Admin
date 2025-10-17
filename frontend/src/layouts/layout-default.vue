@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, h } from "vue";
+import { ref, computed, h, inject } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { Token } from "../types/models/utils/browser/token";
 import { useUserStore } from "../stores/user";
@@ -14,6 +14,8 @@ import {
 } from "@vicons/material";
 import { useThemeVars } from "naive-ui";
 import { useDevice } from "../composables/use-device";
+import type { TranslationsManager } from "../i18n/manager";
+import { TranslationsSymbol } from "../i18n";
 
 const isConfirmationVisible = ref(false);
 const store = useUserStore();
@@ -62,6 +64,13 @@ const handleMenuSelect = (key: string) => {
 };
 
 const selectedKey = computed(() => route.name);
+
+const { t, availableLocales, setLocale, locale } = inject<TranslationsManager>(TranslationsSymbol)!;
+
+const localeOptions = computed(() => availableLocales.map(locale => ({
+    label: locale.toUpperCase(),
+    value: locale
+})))
 </script>
 
 <template>
@@ -85,8 +94,9 @@ const selectedKey = computed(() => route.name);
                                 "
                             />
                         </template>
-                        Log Out
+                        {{ t?.goodbye }}
                     </n-button>
+                    <n-select :value="locale" @update:value="setLocale" :options="localeOptions"></n-select>
                 </n-flex>
             </n-flex>
         </n-space>
