@@ -1,7 +1,7 @@
-import { router } from "../router";
-import { RouteName } from "../types/constants/route-name";
-import type { HttpError } from "../types/models/utils/browser/http-error";
-import { Token } from "../types/models/utils/browser/token";
+import { router } from "@/core/router";
+import { RouteName } from "@/core/types/constants/route-name";
+import type { HttpError } from "@/core/types/models/utils/browser/http-error";
+import { Token } from "@/core/types/models/utils/browser/token";
 
 
 export const withErrorHandling = <T>(apiCall: Promise<T>): Promise<T> => {

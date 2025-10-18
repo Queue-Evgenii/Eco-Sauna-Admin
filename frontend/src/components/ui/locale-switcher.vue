@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, inject } from 'vue';
-import { TranslationsSymbol } from '../../i18n';
-import type { TranslationsManager } from '../../i18n/manager';
+import { TranslationsSymbol } from '@/core/i18n';
+import type { TranslationsManager } from '@/core/i18n/manager';
 
 const { availableLocales, setLocale, locale } = inject<TranslationsManager>(TranslationsSymbol)!;
 

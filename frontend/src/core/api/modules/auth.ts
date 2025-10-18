@@ -1,7 +1,7 @@
 import type { AxiosInstance } from "axios";
 import { Api } from "../api";
-import type { UserDto } from "../../types/models/dto/user-dto";
-import type { UserEntity } from "../../types/models/entities/user.entity";
+import type { UserDto } from "@/core/types/models/dto/user-dto";
+import type { UserEntity } from "@/core/types/models/entities/user.entity";
 
 export class AuthApi extends Api {
   constructor(apiClient: AxiosInstance) {

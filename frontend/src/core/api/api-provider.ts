@@ -1,7 +1,7 @@
 import { type App } from "vue";
 import axios from "axios";
 import { AuthApi } from "./modules/auth";
-import { Token } from "../types/models/utils/browser/token";
+import { Token } from "@/core/types/models/utils/browser/token";
 import { UserApi } from "./modules/user";
 
 const apiProvider = {

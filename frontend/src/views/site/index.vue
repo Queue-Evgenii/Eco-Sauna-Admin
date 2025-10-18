@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import LayoutDefault from '../../layouts/layout-default.vue';
-import { useUserStore } from '../../stores/user';
+import LayoutDefault from '@/layouts/layout-default.vue';
+import { useUserStore } from '@/core/stores/user';
 import { useRouter } from 'vue-router';
-import { RouteName } from '../../types/constants/route-name';
+import { RouteName } from '@/core/types/constants/route-name';
 
 const userStore = useUserStore();
 const router = useRouter();

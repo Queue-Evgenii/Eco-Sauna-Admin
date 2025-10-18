@@ -10,5 +10,6 @@ export default class PlTranslations extends Translations {
     readonly dashboard = "Panel";
     readonly products = "Sauny";
     readonly orders = "Zamówienia";
+    readonly media = "Медиа";
     readonly settings = "Ustawienia";
 }

@@ -3,10 +3,10 @@ import { inject, onMounted, ref } from 'vue'
 import type { FormInst, FormRules } from 'naive-ui'
 import { NCard, NForm, NFormItem, NInput, NButton } from 'naive-ui'
 import { useRouter } from 'vue-router';
-import type { AuthApi } from '../../api/modules/auth';
-import { Token } from '../../types/models/utils/browser/token';
-import { RouteName } from '../../types/constants/route-name';
-import { useUserStore } from '../../stores/user';
+import type { AuthApi } from '@/core/api/modules/auth';
+import { Token } from '@/core/types/models/utils/browser/token';
+import { RouteName } from '@/core/types/constants/route-name';
+import { useUserStore } from '@/core/stores/user';
 
 const userStore = useUserStore();
 const authApi = inject<AuthApi>('AuthApi')!;

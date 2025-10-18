@@ -5,7 +5,8 @@ export const RouteName = {
         DASHBOARD: "dashboard",
         SETTINGS: "settings",
         PRODUCTS: "products",
-        ORDERS: "orders"
+        ORDERS: "orders",
+        MEDIA: "media"
     },
 
     AUTH: {

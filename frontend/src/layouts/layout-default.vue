@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, computed, h, inject } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { Token } from "../types/models/utils/browser/token";
-import { useUserStore } from "../stores/user";
-import { RouteName } from "../types/constants/route-name";
+import { Token } from "@/core/types/models/utils/browser/token";
+import { useUserStore } from "@/core/stores/user";
+import { RouteName } from "@/core/types/constants/route-name";
 import {
     LogOutFilled,
     WarningFilled,
@@ -11,12 +11,13 @@ import {
     SettingsFilled,
     ShoppingCartFilled,
     ViewListFilled,
+    PermMediaFilled,
 } from "@vicons/material";
 import { useThemeVars } from "naive-ui";
-import { useDevice } from "../composables/use-device";
-import type { TranslationsManager } from "../i18n/manager";
-import { TranslationsSymbol } from "../i18n";
-import LocaleSwitcher from "../components/ui/locale-switcher.vue";
+import { useDevice } from "@/composables/use-device";
+import type { TranslationsManager } from "@/core/i18n/manager";
+import { TranslationsSymbol } from "@/core/i18n";
+import LocaleSwitcher from "@/components/ui/locale-switcher.vue";
 
 const isConfirmationVisible = ref(false);
 const store = useUserStore();
@@ -54,6 +55,12 @@ const menuItems = [
         label: () => ((!isMobile.value || (isMobile.value && selectedKey.value === RouteName.SITE.ORDERS)) ? t.value?.orders : ""),
         key: RouteName.SITE.ORDERS,
         icon: ShoppingCartFilled,
+    },
+    {
+        label: () => ((!isMobile.value || (isMobile.value && selectedKey.value === RouteName.SITE.MEDIA)) ? t.value?.media : ""),
+        key: RouteName.SITE.MEDIA,
+        icon: PermMediaFilled,
+        notMobile: true,
     },
     {
         label: () => ((!isMobile.value || (isMobile.value && selectedKey.value === RouteName.SITE.SETTINGS)) ? t.value?.settings : ""),
@@ -136,7 +143,7 @@ const selectedKey = computed(() => route.name);
             "
         >
             <n-menu
-                :options="menuItems.map(i => ({
+                :options="menuItems.filter(i => !i.notMobile).map(i => ({
                     label: i.label,
                     key: i.key,
                     icon: () => h(i.icon),

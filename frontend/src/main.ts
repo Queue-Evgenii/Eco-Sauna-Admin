@@ -1,11 +1,11 @@
 import { createApp } from 'vue'
 import './style.css'
 import app from './app.vue'
-import { router } from './router'
+import { router } from '@/core/router'
 import naive from 'naive-ui'
 import { createPinia } from 'pinia'
-import i18n from './i18n'
-import apiProvider from './api/api-provider'
+import i18n from '@/core/i18n'
+import apiProvider from './core/api/api-provider'
 
 const pinia = createPinia();
 const instance = createApp(app);

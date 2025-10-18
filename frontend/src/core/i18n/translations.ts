@@ -8,5 +8,6 @@ export abstract class Translations {
     abstract readonly dashboard: string;
     abstract readonly products: string;
     abstract readonly orders: string;
+    abstract readonly media: string;
     abstract readonly settings: string;
 }

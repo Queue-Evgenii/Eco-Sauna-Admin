@@ -10,5 +10,6 @@ export default class RuTranslations extends Translations {
     readonly dashboard = "Панель";
     readonly products = "Сауны";
     readonly orders = "Заказы";
+    readonly media = "Медиа";
     readonly settings = "Настройки";
 }

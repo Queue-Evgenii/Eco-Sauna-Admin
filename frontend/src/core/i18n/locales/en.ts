@@ -10,5 +10,6 @@ export default class EnTranslations extends Translations {
     readonly dashboard = "Dashboard";
     readonly products = "Saunas";
     readonly orders = "Orders";
+    readonly media = "Media";
     readonly settings = "Settings";
 }

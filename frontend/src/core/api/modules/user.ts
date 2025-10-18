@@ -1,6 +1,6 @@
 import type { AxiosInstance } from "axios";
 import { Api } from "../api";
-import type { UserEntity } from "../../types/models/entities/user.entity";
+import type { UserEntity } from "@/core/types/models/entities/user.entity";
 
 export class UserApi extends Api {
   constructor(apiClient: AxiosInstance) {
