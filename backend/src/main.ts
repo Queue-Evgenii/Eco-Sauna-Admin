@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { config } from 'dotenv';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   config();
@@ -10,6 +11,14 @@ async function bootstrap() {
   });
 
   app.setGlobalPrefix('api');
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
 
   const port = process.env.BACKEND_PORT ?? 3000;
   console.log(__dirname);

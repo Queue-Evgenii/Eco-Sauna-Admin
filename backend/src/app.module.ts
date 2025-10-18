@@ -7,6 +7,8 @@ import { UserModule } from './modules/user/user.module';
 import { TokenModule } from './modules/token/token.module';
 import { ProductModule } from './modules/products/products.module';
 import { MediaModule } from './modules/media/media.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { resolve } from 'path';
 
 @Module({
   imports: [
@@ -23,6 +25,19 @@ import { MediaModule } from './modules/media/media.module';
     TokenModule,
     MediaModule,
     ProductModule,
+
+    ServeStaticModule.forRoot(
+      (() => {
+        const publicDir = resolve('./uploads/');
+        const servePath = '/uploads';
+
+        return {
+          rootPath: publicDir,
+          serveRoot: servePath,
+          exclude: ['/api*'],
+        };
+      })(),
+    ),
   ],
 })
 export class AppModule {}

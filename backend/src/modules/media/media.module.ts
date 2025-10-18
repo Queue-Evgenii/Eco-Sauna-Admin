@@ -8,5 +8,6 @@ import { MediaFile } from 'src/models/entities/media-file.entity';
   imports: [TypeOrmModule.forFeature([MediaFile])],
   providers: [MediaService],
   controllers: [MediaController],
+  exports: [MediaService],
 })
 export class MediaModule {}

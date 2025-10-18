@@ -1,0 +1,39 @@
+import {
+  IsString,
+  IsOptional,
+  IsNumber,
+  IsInt,
+  IsPositive,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+
+export class CreateProductDto {
+  @IsString()
+  title: string;
+
+  @IsOptional()
+  @IsString()
+  description?: string;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber({ maxDecimalPlaces: 2 })
+  area?: number;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @IsPositive()
+  capacity?: number;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @IsPositive()
+  max_temperature?: number;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  image_id?: number;
+}
