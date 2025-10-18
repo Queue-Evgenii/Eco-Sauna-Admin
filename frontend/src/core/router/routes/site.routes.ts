@@ -34,8 +34,23 @@ export const siteRoutes = [
             },
             {
                 path: "products",
-                component: () => import("@/views/site/products/index.vue"),
-                name: RouteName.SITE.PRODUCTS,
+                children: [
+                    {
+                        path: "",
+                        component: () => import("@/views/site/products/index.vue"),
+                        name: RouteName.SITE.PRODUCTS.LIST,
+                    },
+                    {
+                        path: "add",
+                        component: () => import("@/views/site/products/add.vue"),
+                        name: RouteName.SITE.PRODUCTS.ADD,
+                    },
+                    {
+                        path: "edit/:id",
+                        component: () => import("@/views/site/products/edit.vue"),
+                        name: RouteName.SITE.PRODUCTS.EDIT,
+                    },
+                ]
             },
             {
                 path: "orders",

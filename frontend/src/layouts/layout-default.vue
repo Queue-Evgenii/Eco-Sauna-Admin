@@ -47,8 +47,8 @@ const menuItems = [
         icon: DashboardOutlined,
     },
     {
-        label: () => ((!isMobile.value || (isMobile.value && selectedKey.value === RouteName.SITE.PRODUCTS)) ? t.value?.products : ""),
-        key: RouteName.SITE.PRODUCTS,
+        label: () => ((!isMobile.value || (isMobile.value && selectedKey.value === RouteName.SITE.PRODUCTS.LIST)) ? t.value?.products : ""),
+        key: RouteName.SITE.PRODUCTS.LIST,
         icon: ViewListFilled,
     },
     {

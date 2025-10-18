@@ -18,21 +18,38 @@ export class ProductService {
 
   async findAll(): Promise<Product[]> {
     return this.productRepository.find({
-      relations: ['image', 'gallery', 'gallery.media'],
+      relations: ['image', 'gallery', 'gallery.image'],
     });
   }
 
   async findOne(id: number): Promise<Product> {
     const product = await this.productRepository.findOne({
       where: { id },
-      relations: ['image', 'gallery', 'gallery.media'],
+      relations: ['image', 'gallery', 'gallery.image'],
     });
     if (!product) throw new NotFoundException(`Product #${id} not found`);
     return product;
   }
 
   async create(data: CreateProductDto): Promise<Product> {
-    const product = this.productRepository.create(data);
+    const product = this.productRepository.create();
+
+    product.title = data.title;
+    product.description = data.description;
+    product.area = data.area;
+    product.capacity = data.capacity;
+    product.max_temperature = data.max_temperature;
+
+    if (data.image_id) {
+      product.image =
+        (await this.mediaRepository.findOne({
+          where: { id: data.image_id },
+        })) ?? undefined;
+      if (!product.image) {
+        throw new NotFoundException(`Image #${data.image_id} not found`);
+      }
+    }
+
     return this.productRepository.save(product);
   }
 

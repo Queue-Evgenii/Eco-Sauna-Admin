@@ -12,7 +12,7 @@ const { t } = inject<TranslationsManager>(TranslationsSymbol)!;
 <template>
     <n-space vertical>
         <n-flex justify="space-between" align="stretch" style="gap: 8px;">
-            <router-link :to="{ name: RouteName.SITE.PRODUCTS }" style="flex: 1;">
+            <router-link :to="{ name: RouteName.SITE.PRODUCTS.LIST }" style="flex: 1;">
                 <n-button ghost type="default" size="large" style="width: 100%; height: 100%;">
                 <template #icon>
                     <AddBoxOutlined

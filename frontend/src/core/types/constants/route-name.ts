@@ -4,7 +4,11 @@ export const RouteName = {
         ROOT: "site_root",
         DASHBOARD: "dashboard",
         SETTINGS: "settings",
-        PRODUCTS: "products",
+        PRODUCTS: {
+            LIST: "products",
+            ADD: "add_product",
+            EDIT: "edit_product",
+        },
         ORDERS: "orders",
         MEDIA: "media"
     },

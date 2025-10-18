@@ -3,11 +3,13 @@ import axios from "axios";
 import { AuthApi } from "./modules/auth";
 import { Token } from "@/core/types/models/utils/browser/token";
 import { UserApi } from "./modules/user";
+import { ProductsApi } from "./modules/products";
+import { MediaApi } from "./modules/media";
 
 const apiProvider = {
     install(app: App) {
         const apiClient = axios.create({
-            baseURL: import.meta.env.VITE_API_URL,
+            baseURL: import.meta.env.VITE_API_URL + "/api",
             timeout: 10000,
             headers: {
                 ContentType: "application/json",
@@ -23,6 +25,8 @@ const apiProvider = {
 
         app.provide("AuthApi", new AuthApi(apiClient));
         app.provide("UserApi", new UserApi(apiClient));
+        app.provide("ProductsApi", new ProductsApi(apiClient));
+        app.provide("MediaApi", new MediaApi(apiClient));
     },
 };
 

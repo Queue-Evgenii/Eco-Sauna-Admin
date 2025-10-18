@@ -6,8 +6,8 @@ import {
   Inject,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
-  Put,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -65,7 +65,7 @@ export class MediaController {
     return this.mediaService.create(data);
   }
 
-  @Put(':id')
+  @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() data: Partial<MediaFile>,

@@ -5,8 +5,8 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
-  Put,
 } from '@nestjs/common';
 import { ProductService } from './products.service';
 import { Product } from 'src/models/entities/product.entity';
@@ -32,7 +32,7 @@ export class ProductController {
     return this.productService.create(data);
   }
 
-  @Put(':id')
+  @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() data: UpdateProductDto,
