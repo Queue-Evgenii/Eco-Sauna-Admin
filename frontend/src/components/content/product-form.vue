@@ -16,6 +16,7 @@ import type { ProductsApi } from "@/core/api/modules/products";
 import type { ProductDto } from "@/core/types/models/dto/product-dto";
 import { useRouter } from "vue-router";
 import { RouteName } from "@/core/types/constants/route-name";
+import type { ProductPriceDto } from "@/core/types/models/dto/product-price-dto";
 
 const message = useMessage();
 const productsApi = inject<ProductsApi>("ProductsApi")!;
@@ -32,13 +33,41 @@ const emit = defineEmits<{
   (e: "submitted"): void;
 }>();
 
-const form = ref<ProductDto>({
+const daysOfWeek = [
+  { label: "Пн", index: 1 },
+  { label: "Вт", index: 2 },
+  { label: "Ср", index: 3 },
+  { label: "Чт", index: 4 },
+  { label: "Пт", index: 5 },
+  { label: "Сб", index: 6 },
+  { label: "Вс", index: 0 },
+];
+
+const weekdayPrices = ref<Record<number, number | null>>({});
+const datePrices = ref<Record<string, number>>({});
+const newDate = ref<number | null>(null);
+const newPrice = ref<number | null>(null);
+
+const addDatePrice = () => {
+  if (!newDate.value || !newPrice.value) return;
+  const dateStr = new Date(newDate.value).toISOString().split("T")[0];
+  datePrices.value[dateStr] = newPrice.value;
+  newDate.value = null;
+  newPrice.value = null;
+};
+const deleteDatePrice = (date: string) => {
+  delete datePrices.value[date];
+};
+
+const form = ref<ProductDto & { base_price?: number }>({
   title: "",
   description: "",
   area: undefined,
   capacity: undefined,
   max_temperature: undefined,
   image_id: undefined,
+  base_price: undefined,
+  prices: [],
 });
 
 const productForm = ref();
@@ -61,6 +90,9 @@ const rules: FormRules = {
   ],
   max_temperature: [
     { type: "number", min: 1, message: "Температура должна быть больше 0", trigger: ["blur", "change"] },
+  ],
+  base_price: [
+    { required: true, type: "number", min: 1, message: "Цена должна быть больше 0", trigger: ["blur", "change"] },
   ],
 };
 
@@ -105,6 +137,8 @@ const handleUploadChange = ({ file, fileList: newFileList }: { file: UploadFileI
 };
 
 const submitForm = () => {
+
+      console.log(form.value);
   productForm.value?.validate(async (errors) => {
     if (errors) {
       message.error("Проверьте правильность заполнения формы.");
@@ -119,6 +153,35 @@ const submitForm = () => {
 
       form.value.image_id = res ? res.id : form.value.image_id;
 
+      const prices: ProductPriceDto[] = [];
+
+      if (form.value.base_price) {
+        prices.push({
+          price: form.value.base_price,
+          weekday: null,
+          date: null,
+        });
+      }
+
+      for (const [weekday, price] of Object.entries(weekdayPrices.value)) {
+        if (price) {
+          prices.push({
+            price: Number(price),
+            weekday: Number(weekday),
+            date: null,
+          });
+        }
+      }
+
+      for (const [date, price] of Object.entries(datePrices.value)) {
+        prices.push({
+          price: Number(price),
+          date,
+          weekday: null,
+        });
+      }
+
+
       const payload = {
         title: form.value.title,
         description: form.value.description,
@@ -126,6 +189,7 @@ const submitForm = () => {
         capacity: form.value.capacity,
         max_temperature: form.value.max_temperature,
         image_id: form.value.image_id,
+        prices
       };
 
       if (props.mode === "create") {
@@ -155,7 +219,7 @@ onMounted(fetchProduct);
 </script>
 
 <template>
-  <n-form ref="productForm" :model="form" :rules="rules" label-width="120px">
+  <n-form ref="productForm" :model="form" :rules="rules" label-width="120px" style="padding-right: 5px;">
     <n-form-item label="Название" path="title">
       <n-input v-model:value="form.title" placeholder="Введите название продукта" />
     </n-form-item>
@@ -193,6 +257,43 @@ onMounted(fetchProduct);
       >
         <n-button>Загрузить</n-button>
       </n-upload>
+    </n-form-item>
+
+    <n-form-item label="Базовая цена" path="base_price">
+      <n-input-number v-model:value="form.base_price" placeholder="Базовая цена" :min="0" style="width: 375px;" />
+    </n-form-item>
+
+    <n-form-item label="Цены по дням недели">
+      <n-space vertical>
+        <n-space v-for="day in daysOfWeek" :key="day.index" align="center">
+          <div style="width: 30px;">{{ day.label }}:</div>
+          <n-input-number
+            v-model:value="weekdayPrices[day.index]"
+            placeholder="Цена"
+            :min="0"
+            style="width: 333px;"
+          />
+        </n-space>
+      </n-space>
+    </n-form-item>
+
+    <n-form-item label="Цены по датам">
+      <n-space vertical>
+        <n-flex align="center"
+          v-for="(price, date) in datePrices"
+          :key="date"
+        >
+          <n-input :value="date" disabled style="width: 150px;" />
+          <n-input-number v-model:value="datePrices[date]" placeholder="Цена" :min="0" style="width: 150px;" />
+          <n-button size="medium" type="error" @click="deleteDatePrice(date)" style="width: 100px;">Удалить</n-button>
+        </n-flex>
+
+        <n-flex align="center">
+          <n-date-picker v-model:value="newDate" type="date" placeholder="Выберите дату" style="width: 150px;" />
+          <n-input-number v-model:value="newPrice" placeholder="Цена" :min="0" style="width: 150px;" />
+          <n-button size="medium" type="primary" @click="addDatePrice" style="width: 100px;">Добавить</n-button>
+        </n-flex>
+      </n-space>
     </n-form-item>
 
     <n-form-item>
