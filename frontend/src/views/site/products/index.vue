@@ -222,7 +222,7 @@ const columns: DataTableColumns<ProductEntity> = [
     </router-link>
 
     <div v-if="isMobile" class="mobile-cards">
-        <n-space vertical :size="2">
+        <n-space vertical :size="16">
             <n-card
                 v-for="product in products"
                 :key="product.id"
@@ -249,11 +249,13 @@ const columns: DataTableColumns<ProductEntity> = [
                 </template>
 
                 <h3>{{ product.title }}</h3>
-                <p v-if="product.area">Area: {{ product.area }} m²</p>
-                <p v-if="product.capacity">Capacity: {{ product.capacity }}</p>
-                <p v-if="product.max_temperature">
-                    Max Temp: {{ product.max_temperature }}°C
-                </p>
+                <n-flex>
+                    <n-tag type="info" v-if="product.area">Area: {{ product.area }} m²</n-tag>
+                    <n-tag type="info" v-if="product.capacity">Capacity: {{ product.capacity }}</n-tag>
+                    <n-tag type="info" v-if="product.max_temperature">
+                        Max Temp: {{ product.max_temperature }}°C
+                    </n-tag>
+                </n-flex>
 
                 <n-space style="margin-top: 12px">
                     <router-link
