@@ -50,7 +50,13 @@ const newPrice = ref<number | null>(null);
 
 const addDatePrice = () => {
   if (!newDate.value || !newPrice.value) return;
-  const dateStr = new Date(newDate.value).toISOString().split("T")[0];
+
+  const date = new Date(newDate.value);
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+  const dateStr = `${year}-${month}-${day}`;
+
   datePrices.value[dateStr] = newPrice.value;
   newDate.value = null;
   newPrice.value = null;
@@ -113,7 +119,20 @@ const setProduct = (product: ProductDto) => {
   form.value = {
     ...product,
     area: product.area ? Number(product.area) : undefined,
+    base_price: Number(product.prices?.find(el => !el.date && !el.weekday)?.price),
   };
+
+  product.prices?.filter(el => el.price && el.weekday && !el.date).forEach(el => {
+    if (el.weekday) {
+      weekdayPrices.value[el.weekday] = Number(el.price);
+    }
+  });
+
+  product.prices?.filter(el => el.price && el.date && !el.weekday).forEach(el => {
+    if (el.date) {
+      datePrices.value[el.date] = Number(el.price);
+    }
+  });
 
   if (product.image && typeof product.image === "object" && product.image.filename) {
     fileList.value = [
