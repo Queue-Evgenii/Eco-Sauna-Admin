@@ -9,6 +9,7 @@ import {
   Patch,
   Post,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { MediaService } from './media.service';
@@ -18,6 +19,7 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { v4 as uuid } from 'uuid';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { JwtAuthGuard } from 'src/guards/jwt.guard';
 
 @Controller('media')
 export class MediaController {
@@ -37,6 +39,7 @@ export class MediaController {
   }
 
   @Post('upload')
+  @UseGuards(JwtAuthGuard)
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
@@ -66,6 +69,7 @@ export class MediaController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() data: Partial<MediaFile>,
@@ -74,6 +78,7 @@ export class MediaController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.mediaService.remove(id);
   }

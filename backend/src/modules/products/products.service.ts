@@ -57,7 +57,7 @@ export class ProductService {
 
     const savedProduct = await this.productRepository.save(product);
 
-    await this.addPrices(savedProduct.id, data.prices);
+    await this.attachPrices(savedProduct.id, data.prices);
 
     return savedProduct;
   }
@@ -72,11 +72,11 @@ export class ProductService {
       if (image) product.image = image;
     }
 
-    Object.assign(product, { ...data, prices: undefined });
+    Object.assign(product, { ...data, prices: undefined, gallery: undefined });
 
     const savedProduct = await this.productRepository.save(product);
 
-    await this.addPrices(savedProduct.id, data.prices);
+    await this.attachPrices(savedProduct.id, data.prices);
 
     return savedProduct;
   }
@@ -86,7 +86,7 @@ export class ProductService {
     await this.productRepository.remove(product);
   }
 
-  async addPrices(
+  private async attachPrices(
     productId: number,
     prices?: ProductPriceDto[],
   ): Promise<void> {
