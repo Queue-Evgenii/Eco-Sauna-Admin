@@ -6,6 +6,7 @@ import {
   IsPositive,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { ProductPriceDto } from './product-price-dto';
 
 export class CreateProductDto {
   @IsString()
@@ -36,4 +37,8 @@ export class CreateProductDto {
   @Type(() => Number)
   @IsInt()
   image_id?: number;
+
+  @IsOptional()
+  @Type(() => Array<ProductPriceDto>)
+  prices?: Array<ProductPriceDto>;
 }

@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { MediaFile } from './media-file.entity';
 import { ProductGallery } from './product-gallery.entity';
+import { ProductPrice } from './product-prices.entity';
 
 @Entity('products')
 export class Product {
@@ -36,7 +37,10 @@ export class Product {
   image?: MediaFile;
 
   @OneToMany(() => ProductGallery, (gallery) => gallery.product)
-  gallery: ProductGallery[];
+  gallery?: ProductGallery[];
+
+  @OneToMany(() => ProductPrice, (price) => price.product)
+  prices?: ProductPrice[];
 
   @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
   created_at: Date;
