@@ -154,10 +154,7 @@ export class ProductService {
     });
 
     const existing = await this.productGalleryRepository.find({
-      where: {
-        product: { id: productId },
-        image: { id: In(gallery_ids) },
-      },
+      where: { product: { id: productId } },
       relations: ['image'],
     });
 
@@ -181,6 +178,16 @@ export class ProductService {
       }
     }
 
-    await this.productGalleryRepository.save(toSave);
+    const toRemove = existing.filter(
+      (item) => !gallery_ids.includes(item.image.id),
+    );
+
+    if (toRemove.length > 0) {
+      await this.productGalleryRepository.remove(toRemove);
+    }
+
+    if (toSave.length > 0) {
+      await this.productGalleryRepository.save(toSave);
+    }
   }
 }

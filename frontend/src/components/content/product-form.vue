@@ -248,6 +248,7 @@ const submitForm = () => {
                 );
                 galleryImageIds = uploads.map(el => el.id);
             }
+            galleryImageIds.unshift(...galleryFileList.value.map(el => Number(el.id)))
 
             const prices: ProductPriceDto[] = [];
 
