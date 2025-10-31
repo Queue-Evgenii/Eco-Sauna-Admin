@@ -4,9 +4,10 @@ import { CreateProductDto } from 'src/models/dto/product/create-product-dto';
 import { ProductPriceDto } from 'src/models/dto/product/product-price-dto';
 import { UpdateProductDto } from 'src/models/dto/product/update-product-dto';
 import { MediaFile } from 'src/models/entities/media-file.entity';
+import { ProductGallery } from 'src/models/entities/product-gallery.entity';
 import { ProductPrice } from 'src/models/entities/product-prices.entity';
 import { Product } from 'src/models/entities/product.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
 @Injectable()
 export class ProductService {
@@ -16,6 +17,9 @@ export class ProductService {
 
     @InjectRepository(MediaFile)
     private readonly mediaRepository: Repository<MediaFile>,
+
+    @InjectRepository(ProductGallery)
+    private readonly productGalleryRepository: Repository<ProductGallery>,
 
     @InjectRepository(ProductPrice)
     private readonly productPriceRepository: Repository<ProductPrice>,
@@ -57,6 +61,7 @@ export class ProductService {
 
     const savedProduct = await this.productRepository.save(product);
 
+    await this.attachGallery(savedProduct.id, data.gallery_ids);
     await this.attachPrices(savedProduct.id, data.prices);
 
     return savedProduct;
@@ -76,6 +81,7 @@ export class ProductService {
 
     const savedProduct = await this.productRepository.save(product);
 
+    await this.attachGallery(savedProduct.id, data.gallery_ids);
     await this.attachPrices(savedProduct.id, data.prices);
 
     return savedProduct;
@@ -127,5 +133,54 @@ export class ProductService {
         await this.productPriceRepository.save(newPrice);
       }
     }
+  }
+
+  private async attachGallery(
+    productId: number,
+    gallery_ids?: number[],
+  ): Promise<void> {
+    if (!gallery_ids) gallery_ids = [];
+
+    const product = await this.productRepository.findOne({
+      where: { id: productId },
+    });
+
+    if (!product) {
+      throw new NotFoundException(`Product #${productId} not found`);
+    }
+
+    const gallery = await this.mediaRepository.find({
+      where: { id: In(gallery_ids) },
+    });
+
+    const existing = await this.productGalleryRepository.find({
+      where: {
+        product: { id: productId },
+        image: { id: In(gallery_ids) },
+      },
+      relations: ['image'],
+    });
+
+    const existingMap = new Map(existing.map((item) => [item.image.id, item]));
+
+    const toSave: ProductGallery[] = [];
+
+    for (const [index, el] of gallery.entries()) {
+      const existingItem = existingMap.get(el.id);
+
+      if (existingItem) {
+        existingItem.position = index;
+        toSave.push(existingItem);
+      } else {
+        const newImage = this.productGalleryRepository.create({
+          product,
+          image: el,
+          position: index,
+        });
+        toSave.push(newImage);
+      }
+    }
+
+    await this.productGalleryRepository.save(toSave);
   }
 }

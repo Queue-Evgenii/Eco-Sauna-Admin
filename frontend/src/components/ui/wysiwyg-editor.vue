@@ -37,6 +37,12 @@ watch(htmlMode, (val) => {
   if (val) htmlContent.value = editor.value?.root.innerHTML || ''
 })
 
+watch(() => props.modelValue, (newValue) => {
+  if (editor.value && newValue !== editor.value.root.innerHTML) {
+    editor.value.root.innerHTML = newValue || ''
+  }
+})
+
 onBeforeUnmount(() => {
   editor.value = null
 })

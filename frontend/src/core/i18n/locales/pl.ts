@@ -7,6 +7,7 @@ export default class PlTranslations extends Translations {
     readonly create = "Utwórz";
     readonly update = "Aktualizuj";
     readonly reset = "Zresetuj";
+    readonly dnd = "Kliknij lub przeciągnij plik w ten obszar, aby go przesłać";
     readonly r_u_sure = "Czy na pewno?";
     
     readonly logout = "Wyloguj się";
@@ -49,5 +50,6 @@ export default class PlTranslations extends Translations {
     readonly product_base_price = "Cena podstawowa";
     readonly product_prices_by_weekday = "Ceny według dnia tygodnia";
     readonly product_prices_by_date = "Ceny według daty";
+    readonly product_gallery = "Galeria";
     readonly date = "Data";
 }

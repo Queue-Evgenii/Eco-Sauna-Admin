@@ -5,6 +5,7 @@ export abstract class Translations {
     abstract readonly create: string;
     abstract readonly update: string;
     abstract readonly reset: string;
+    abstract readonly dnd: string;
     abstract readonly r_u_sure: string;
 
     abstract readonly login: string;
@@ -47,5 +48,6 @@ export abstract class Translations {
     abstract readonly product_base_price: string;
     abstract readonly product_prices_by_weekday: string;
     abstract readonly product_prices_by_date: string;
+    abstract readonly product_gallery: string;
     abstract readonly date: string;
 }

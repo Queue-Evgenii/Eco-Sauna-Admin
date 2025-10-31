@@ -18,7 +18,7 @@ import type { ProductDto } from "@/core/types/models/dto/product-dto";
 import { useRouter } from "vue-router";
 import { RouteName } from "@/core/types/constants/route-name";
 import type { ProductPriceDto } from "@/core/types/models/dto/product-price-dto";
-import { AddFilled, DeleteFilled, WarningFilled } from "@vicons/material";
+import { AddFilled, ArchiveFilled, DeleteFilled, WarningFilled } from "@vicons/material";
 import { useDevice } from "@/composables/use-device";
 import type { TranslationsManager } from "@/core/i18n/manager";
 import { TranslationsSymbol } from "@/core/i18n";
@@ -200,6 +200,15 @@ const setProduct = (product: ProductDto) => {
     } else {
         fileList.value = [];
     }
+
+    if (product.gallery && Array.isArray(product.gallery)) {
+        galleryFileList.value = product.gallery.map((img) => ({
+            id: `${img.image.id}`,
+            name: img.image.filename,
+            status: "finished",
+            url: import.meta.env.VITE_API_URL + "/uploads/" + img.image.filename,
+        }));
+    }
 };
 
 const handleUploadChange = ({
@@ -230,6 +239,15 @@ const submitForm = () => {
             }
 
             form.value.image_id = res ? res.id : form.value.image_id;
+
+            let galleryImageIds: number[] = [];
+
+            if (uploadedGalleryFiles.value.length) {
+                const uploads = await Promise.all(
+                    uploadedGalleryFiles.value.map((file) => mediaApi.uploadFile(file))
+                );
+                galleryImageIds = uploads.map(el => el.id);
+            }
 
             const prices: ProductPriceDto[] = [];
 
@@ -268,6 +286,7 @@ const submitForm = () => {
                 capacity: form.value.capacity,
                 max_temperature: form.value.max_temperature,
                 image_id: form.value.image_id,
+                gallery_ids: galleryImageIds,
                 prices,
             };
 
@@ -295,6 +314,21 @@ const resetForm = () => {
 };
 
 const closeDateDeleteConfirmation = () => (dateForDelete.value = undefined);
+
+
+const galleryFileList = ref<UploadFileInfo[]>([]);
+const uploadedGalleryFiles = ref<File[]>([]);
+
+const handleGalleryUploadChange = ({
+    fileList: newFileList,
+}: {
+    fileList: UploadFileInfo[];
+}) => {
+    galleryFileList.value = newFileList;
+    uploadedGalleryFiles.value = newFileList
+        .map((f) => f.file)
+        .filter((f): f is File => !!f);
+};
 
 onMounted(fetchProduct);
 </script>
@@ -461,6 +495,28 @@ onMounted(fetchProduct);
                     </n-button>
                 </n-flex>
             </n-space>
+        </n-form-item>
+
+        <n-form-item :label="t?.product_gallery" path="gallery">
+            <n-upload
+                multiple
+                directory-dnd
+                list-type="image"
+                accept="image/*"
+                v-model:file-list="galleryFileList"
+                @change="handleGalleryUploadChange"
+            >
+                <n-upload-dragger>
+                    <div style="margin-bottom: 12px">
+                        <n-icon size="48" :depth="3">
+                            <ArchiveFilled />
+                        </n-icon>
+                    </div>
+                    <n-text style="font-size: 16px">
+                        {{ t?.dnd }}
+                    </n-text>
+                </n-upload-dragger>
+            </n-upload>
         </n-form-item>
 
         <n-form-item>

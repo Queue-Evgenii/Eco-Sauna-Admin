@@ -41,4 +41,8 @@ export class CreateProductDto {
   @IsOptional()
   @Type(() => Array<ProductPriceDto>)
   prices?: Array<ProductPriceDto>;
+
+  @IsOptional()
+  @Type(() => Array<number>)
+  gallery_ids?: Array<number>;
 }

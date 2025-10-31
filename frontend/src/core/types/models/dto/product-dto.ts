@@ -17,4 +17,10 @@ export interface ProductDto {
   image?: MediaFileEntity,
 
   prices?: ProductPriceDto[],
+
+  gallery_ids?: number[],
+
+  gallery?: {
+    image: MediaFileEntity
+  }[],
 }

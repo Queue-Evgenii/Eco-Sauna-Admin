@@ -7,6 +7,7 @@ export default class EnTranslations extends Translations {
     readonly create = "Create";
     readonly update = "Update";
     readonly reset = "Reset";
+    readonly dnd = "Click or drag a file to this area to upload";
     readonly r_u_sure = "Are you sure?";
 
     readonly logout = "Log Out";
@@ -49,5 +50,6 @@ export default class EnTranslations extends Translations {
     readonly product_base_price = "Base price";
     readonly product_prices_by_weekday = "Prices by weekday";
     readonly product_prices_by_date = "Prices by date";
+    readonly product_gallery = "Gallery";
     readonly date = "Date";
 }

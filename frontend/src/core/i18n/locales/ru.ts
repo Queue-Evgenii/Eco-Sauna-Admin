@@ -7,6 +7,7 @@ export default class RuTranslations extends Translations {
     readonly create = "Создать";
     readonly update = "Обновить";
     readonly reset = "Сбросить";
+    readonly dnd = "Нажмите или перетащите файл в эту область для загрузки";
     readonly r_u_sure = "Вы уверены?";
 
     readonly logout = "Выйти";
@@ -49,5 +50,6 @@ export default class RuTranslations extends Translations {
     readonly product_base_price = "Базовая цена";
     readonly product_prices_by_weekday = "Цены по дню недели";
     readonly product_prices_by_date = "Цены по дате";
+    readonly product_gallery = "Галерея";
     readonly date = "Дата";
 }
