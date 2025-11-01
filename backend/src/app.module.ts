@@ -9,6 +9,7 @@ import { ProductModule } from './modules/products/products.module';
 import { MediaModule } from './modules/media/media.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { resolve } from 'path';
+import { OrdersModule } from './modules/orders/orders.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { resolve } from 'path';
     TokenModule,
     MediaModule,
     ProductModule,
+    OrdersModule,
 
     ServeStaticModule.forRoot(
       (() => {
