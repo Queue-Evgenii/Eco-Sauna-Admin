@@ -9,7 +9,10 @@ export const RouteName = {
             ADD: "add_product",
             EDIT: "edit_product",
         },
-        ORDERS: "orders",
+        ORDERS: {
+            LIST: "orders",
+            EDIT: "edit_order",
+        },
         MEDIA: "media"
     },
 

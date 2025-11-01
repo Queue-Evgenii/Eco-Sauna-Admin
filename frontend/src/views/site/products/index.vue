@@ -140,7 +140,7 @@ const columns: DataTableColumns<ProductEntity> = [
                       width: 120,
                       height: 80,
                       style: "object-fit: contain; border: 1px solid #eee; border-radius: 4px;",
-                      onClick: () => openImageModal(row.image),
+                      onClick: () => row.image ? openImageModal(row.image) : () => console.log("No image"),
                   })
                 : h(
                       NFlex,
@@ -164,9 +164,6 @@ const columns: DataTableColumns<ProductEntity> = [
         key: "actions",
         width: 220,
         render(row) {
-            const renderIcon = (iconComponent: any) =>
-                h(NIcon, null, { default: () => h(iconComponent) });
-
             return h(NSpace, null, () => [
                 h(
                     RouterLink,
@@ -182,7 +179,7 @@ const columns: DataTableColumns<ProductEntity> = [
                                 NButton,
                                 { size: "medium", type: "info" },
                                 {
-                                    icon: () => renderIcon(EditFilled),
+                                    icon: () => h(NIcon, null, { default: () => h(EditFilled) }),
                                     default: () => "Edit",
                                 },
                             ),
@@ -196,7 +193,7 @@ const columns: DataTableColumns<ProductEntity> = [
                         onClick: () => openDeleteModal(row),
                     },
                     {
-                        icon: () => renderIcon(DeleteFilled),
+                        icon: () => () => h(NIcon, null, { default: () => h(DeleteFilled) }),
                         default: () => "Delete",
                     },
                 ),
@@ -282,7 +279,7 @@ const columns: DataTableColumns<ProductEntity> = [
 
     <n-modal
         v-model:show="deletingProduct"
-        :title="t?.logout"
+        :title="`${t?.delete} ${deletingProduct?.title}`"
         preset="dialog"
         v-model:on-after-leave="closeDeleteModal"
     >
@@ -297,11 +294,11 @@ const columns: DataTableColumns<ProductEntity> = [
                 margin-top: 16px;
             "
         >
-            <p>{{ deletingProduct?.title }}{{ t?.r_u_sure }}</p>
+            <p>{{ t?.r_u_sure }}</p>
             <div style="display: flex; justify-content: flex-end; gap: 0.5rem">
                 <n-button @click="closeDeleteModal">{{ t?.cancel }}</n-button>
                 <n-button type="error" @click="deleteProduct">{{
-                    t?.logout
+                    t?.delete
                 }}</n-button>
             </div>
         </div>

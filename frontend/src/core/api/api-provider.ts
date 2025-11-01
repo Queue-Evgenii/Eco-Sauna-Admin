@@ -5,6 +5,7 @@ import { Token } from "@/core/types/models/utils/browser/token";
 import { UserApi } from "./modules/user";
 import { ProductsApi } from "./modules/products";
 import { MediaApi } from "./modules/media";
+import { OrdersApi } from "./modules/orders";
 
 const apiProvider = {
     install(app: App) {
@@ -26,6 +27,7 @@ const apiProvider = {
         app.provide("AuthApi", new AuthApi(apiClient));
         app.provide("UserApi", new UserApi(apiClient));
         app.provide("ProductsApi", new ProductsApi(apiClient));
+        app.provide("OrdersApi", new OrdersApi(apiClient));
         app.provide("MediaApi", new MediaApi(apiClient));
     },
 };

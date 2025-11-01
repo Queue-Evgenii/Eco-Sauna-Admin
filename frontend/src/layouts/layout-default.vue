@@ -52,8 +52,8 @@ const menuItems = [
         icon: ViewListFilled,
     },
     {
-        label: () => ((!isMobile.value || (isMobile.value && selectedKey.value === RouteName.SITE.ORDERS)) ? t.value?.orders : ""),
-        key: RouteName.SITE.ORDERS,
+        label: () => ((!isMobile.value || (isMobile.value && selectedKey.value === RouteName.SITE.ORDERS.LIST)) ? t.value?.orders : ""),
+        key: RouteName.SITE.ORDERS.LIST,
         icon: ShoppingCartFilled,
     },
     {

@@ -54,8 +54,18 @@ export const siteRoutes = [
             },
             {
                 path: "orders",
-                component: () => import("@/views/site/orders/index.vue"),
-                name: RouteName.SITE.ORDERS,
+                children: [
+                    {
+                        path: "",
+                        component: () => import("@/views/site/orders/index.vue"),
+                        name: RouteName.SITE.ORDERS.LIST,
+                    },
+                    {
+                        path: "edit/:id",
+                        component: () => import("@/views/site/orders/index.vue"),
+                        name: RouteName.SITE.ORDERS.EDIT,
+                    },
+                ]
             },
         ],
     },
