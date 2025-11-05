@@ -23,6 +23,7 @@ import { useDevice } from "@/composables/use-device";
 import type { TranslationsManager } from "@/core/i18n/manager";
 import { TranslationsSymbol } from "@/core/i18n";
 import WysiwygEditor from "@/components/ui/wysiwyg-editor.vue";
+import { withErrorHandling } from "@/core/api/api-error-handler";
 
 const message = useMessage();
 const productsApi = inject<ProductsApi>("ProductsApi")!;
@@ -148,7 +149,7 @@ const fetchProduct = async () => {
         setProduct(props.product);
     } else if (props.productId) {
         try {
-            const product = await productsApi.getProductById(props.productId);
+            const product = await withErrorHandling(productsApi.getProductById(props.productId));
             setProduct(product);
         } catch (err) {
             message.error(t.value?.fetch_data_error ?? "");
@@ -292,10 +293,10 @@ const submitForm = () => {
             };
 
             if (props.mode === "create") {
-                await productsApi.createProduct(payload);
+                await withErrorHandling(productsApi.createProduct(payload));
                 message.success(t.value?.product_created ?? "");
             } else {
-                await productsApi.updateProduct(props.productId!, payload);
+                await withErrorHandling(productsApi.updateProduct(props.productId!, payload));
                 message.success(t.value?.product_updated ?? "");
             }
 

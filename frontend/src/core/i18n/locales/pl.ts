@@ -2,6 +2,7 @@ import { Translations } from "../translations";
 
 export default class PlTranslations extends Translations {
     readonly add = "Dodaj";
+    readonly edit = "Edytuj";
     readonly delete = "Usuń";
     readonly cancel = "Anuluj";
     readonly create = "Utwórz";
@@ -52,4 +53,15 @@ export default class PlTranslations extends Translations {
     readonly product_prices_by_date = "Ceny według daty";
     readonly product_gallery = "Galeria";
     readonly date = "Data";
+    
+    readonly status = "Status";
+    readonly customer = "Klient";
+    readonly actions = "Działania";
+    readonly phone = "Telefon";
+    readonly created_at = "Data utworzenia";
+    readonly updated_at = "Data aktualizacji";
+    readonly start_date = "Data od";
+    readonly end_date = "Data do";
+    readonly message = "Komentarz";
+    readonly total = "Suma całkowita";
 }

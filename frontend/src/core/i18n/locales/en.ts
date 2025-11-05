@@ -2,6 +2,7 @@ import { Translations } from "../translations";
 
 export default class EnTranslations extends Translations {
     readonly add = "Add";
+    readonly edit = "Edit";
     readonly delete = "Delete";
     readonly cancel = "Cancel";
     readonly create = "Create";
@@ -52,4 +53,15 @@ export default class EnTranslations extends Translations {
     readonly product_prices_by_date = "Prices by date";
     readonly product_gallery = "Gallery";
     readonly date = "Date";
+
+    readonly status = "Status";
+    readonly customer = "Customer";
+    readonly actions = "Actions";
+    readonly phone = "Phone";
+    readonly created_at = "Created at";
+    readonly updated_at = "Update Date";
+    readonly start_date = "Start Date";
+    readonly end_date = "End Date";
+    readonly message = "Comment";
+    readonly total = "Total Amount";
 }

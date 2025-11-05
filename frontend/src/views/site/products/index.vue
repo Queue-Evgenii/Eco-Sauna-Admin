@@ -193,7 +193,7 @@ const columns: DataTableColumns<ProductEntity> = [
                         onClick: () => openDeleteModal(row),
                     },
                     {
-                        icon: () => () => h(NIcon, null, { default: () => h(DeleteFilled) }),
+                        icon: () => h(NIcon, null, { default: () => h(DeleteFilled) }),
                         default: () => "Delete",
                     },
                 ),

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, h, inject } from "vue";
+import { ref, onMounted, h, inject, computed } from "vue";
 import {
     NDataTable,
     NButton,
@@ -71,10 +71,10 @@ const updateStatus = async (order: OrderEntity, status: OrderStatus) => {
     }
 };
 
-const columns: DataTableColumns<OrderEntity> = [
+const columns = computed<DataTableColumns<OrderEntity>>(() => [
     { title: "ID", key: "id" },
     {
-        title: "Sauna",
+        title: t.value?.product_name,
         key: "title",
         width: 150,
         render(row) {
@@ -84,7 +84,7 @@ const columns: DataTableColumns<OrderEntity> = [
         },
     },
     {
-        title: "Customer",
+        title: t.value?.customer,
         key: "customer_info",
         render(row) {
             return h(
@@ -101,21 +101,21 @@ const columns: DataTableColumns<OrderEntity> = [
         },
     },
     {
-        title: "Date",
+        title: t.value?.date,
         key: "date",
         render(row) {
-            return h(NTag, null, { default: () => `${row.start_date ?? '~'} - ${row.end_date ?? '~'}` });
+            return h(NTag, null, { default: () => `${new Date(row.start_date).toLocaleDateString() ?? '~'} - ${new Date(row.end_date).toLocaleDateString() ?? '~'}` });
         },
     },
     {
-        title: "Created",
+        title: t.value?.created_at,
         key: "created_at",
         render(row) {
-            return h(NTag, null, { default: () => `${row.created_at.toString().split("T")[0]} ${row.created_at.toString().split("T")[1]?.split(".")[0]}` });
+            return h(NTag, null, { default: () => new Date(row.created_at).toLocaleString() });
         },
     },
     {
-        title: "Actions",
+        title: t.value?.actions,
         key: "actions",
         width: 350,
         render(row) {
@@ -151,7 +151,7 @@ const columns: DataTableColumns<OrderEntity> = [
                                     { size: "small", type: "info" },
                                     {
                                         icon: () => h(NIcon, null, { default: () => h(EditFilled) }),
-                                        default: () => "Edit",
+                                        default: () => t.value?.edit,
                                     },
                                 ),
                         },
@@ -165,24 +165,24 @@ const columns: DataTableColumns<OrderEntity> = [
                         },
                         {
                             icon: () => h(NIcon, null, { default: () => h(DeleteFilled) }),
-                            default: () => "Delete",
+                            default: () => t.value?.delete,
                         }
                     ),
                 ]
             );
         },
     },
-];
+]);
 </script>
 
 <template>
     <div v-if="isMobile" class="orders-cards">
         <div v-for="order in orders" :key="order.id" class="order-card">
             <div><b>ID:</b> {{ order.id }}</div>
-            <div><b>Sauna:</b> {{ order.product.title }}</div>
-            <div><b>Customer:</b> {{ order.customer_name }}</div>
-            <div><b>Phone:</b> {{ order.customer_phone }}</div>
-            <div><b>Date:</b> {{ order.start_date }} - {{ order.end_date }}</div>
+            <div><b>{{ t?.product_name }}:</b> {{ order.product.title }}</div>
+            <div><b>{{ t?.customer }}:</b> {{ order.customer_name }}</div>
+            <div><b>{{ t?.phone }}:</b> {{ order.customer_phone }}</div>
+            <div><b>{{ t?.date }}:</b> {{ order.start_date }} - {{ order.end_date }}</div>
 
             <n-divider style="margin: 12px 0" />
 
@@ -194,12 +194,14 @@ const columns: DataTableColumns<OrderEntity> = [
                     :value="order.status"
                     @update:value="(v) => updateStatus(order, v)"
                 />
-                <n-button size="medium" type="info" block @click="editItem(order)" style="flex: 1 1 50%;">
-                    <template #icon>
-                        <n-icon><EditFilled /></n-icon>
-                    </template>
-                    Edit
-                </n-button>
+                <router-link :to="{ name: RouteName.SITE.ORDERS.EDIT, params: { id: order.id } }" style="flex: 1 1 50%;">
+                    <n-button size="medium" type="info" block>
+                        <template #icon>
+                            <n-icon><EditFilled /></n-icon>
+                        </template>
+                        {{ t?.edit }}
+                    </n-button>
+                </router-link>
             </n-flex>
 
             <n-divider style="margin: 12px 0" />
@@ -208,7 +210,7 @@ const columns: DataTableColumns<OrderEntity> = [
                 <template #icon>
                     <n-icon><DeleteFilled /></n-icon>
                 </template>
-                Delete
+                {{ t?.delete }}
             </n-button>
         </div>
     </div>

@@ -62,7 +62,7 @@ export const siteRoutes = [
                     },
                     {
                         path: "edit/:id",
-                        component: () => import("@/views/site/orders/index.vue"),
+                        component: () => import("@/views/site/orders/edit.vue"),
                         name: RouteName.SITE.ORDERS.EDIT,
                     },
                 ]

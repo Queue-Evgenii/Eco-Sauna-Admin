@@ -2,6 +2,7 @@ import { Translations } from "../translations";
 
 export default class RuTranslations extends Translations {
     readonly add = "Добавить";
+    readonly edit = "Изменить";
     readonly delete = "Удалить";
     readonly cancel = "Отмена";
     readonly create = "Создать";
@@ -52,4 +53,15 @@ export default class RuTranslations extends Translations {
     readonly product_prices_by_date = "Цены по дате";
     readonly product_gallery = "Галерея";
     readonly date = "Дата";
+
+    readonly status = "Статус";
+    readonly customer = "Клиент";
+    readonly actions = "Действия";
+    readonly phone = "Телефон";
+    readonly created_at = "Дата создания";
+    readonly updated_at = "Дата обновления";
+    readonly start_date = "Дата от";
+    readonly end_date = "Дата до";
+    readonly message = "Комментарий";
+    readonly total = "Сумма итого";
 }

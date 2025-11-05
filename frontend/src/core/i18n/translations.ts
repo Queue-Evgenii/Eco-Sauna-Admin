@@ -1,5 +1,6 @@
 export abstract class Translations {
     abstract readonly add: string;
+    abstract readonly edit: string;
     abstract readonly delete: string;
     abstract readonly cancel: string;
     abstract readonly create: string;
@@ -50,4 +51,15 @@ export abstract class Translations {
     abstract readonly product_prices_by_date: string;
     abstract readonly product_gallery: string;
     abstract readonly date: string;
+
+    abstract readonly status: string;
+    abstract readonly customer: string;
+    abstract readonly created_at: string;
+    abstract readonly updated_at: string;
+    abstract readonly start_date: string;
+    abstract readonly end_date: string;
+    abstract readonly message: string;
+    abstract readonly total: string;
+    abstract readonly actions: string;
+    abstract readonly phone: string;
 }

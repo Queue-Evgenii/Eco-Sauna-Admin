@@ -23,7 +23,7 @@ const { t } = inject<TranslationsManager>(TranslationsSymbol)!;
                 </n-button>
             </router-link>
 
-            <router-link :to="{ name: RouteName.SITE.ORDERS }" style="flex: 1;">
+            <router-link :to="{ name: RouteName.SITE.ORDERS.LIST }" style="flex: 1;">
                 <n-button ghost type="default" size="large" style="width: 100%; height: 100%;">
                 <template #icon>
                     <BookmarkBorderOutlined
