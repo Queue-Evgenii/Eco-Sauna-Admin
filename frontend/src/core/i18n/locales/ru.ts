@@ -76,4 +76,8 @@ export default class RuTranslations extends Translations {
     readonly admin_email = "Email админа";
     readonly mail_body = "Тело письма";
     readonly mail_subject = "Тема письма";
+
+    readonly image_meta_popup = "Мета данные, изображение";
+    readonly image_meta_alt = "Alt text, изображение";
+    readonly image_meta_description = "Description, изображение";
 }

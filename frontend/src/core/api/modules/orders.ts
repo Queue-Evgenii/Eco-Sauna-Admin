@@ -7,13 +7,17 @@ export class OrdersApi extends Api {
   constructor(apiClient: AxiosInstance) {
     super(apiClient, '/orders');
   }
+
+  getOrdersCount = () => {
+    return this.getRequest<number>('/count');
+  }
   
   getOrderById = (id: number) => {
     return this.getRequest<OrderEntity>(`/${id}`);
   }
 
-  getOrders = () => {
-    return this.getRequest<OrderEntity[]>('/');
+  getOrders = (params?: { per_page?: number }) => {
+    return this.getRequest<OrderEntity[]>('/', params);
   }
 
   updateOrderStatus = (id: number, data: OrderStatusDto) => {

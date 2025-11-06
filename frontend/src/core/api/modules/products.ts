@@ -7,6 +7,10 @@ export class ProductsApi extends Api {
   constructor(apiClient: AxiosInstance) {
     super(apiClient, '/products');
   }
+
+  getProductsCount = () => {
+    return this.getRequest<number>('/count');
+  }
   
   getProductById = (id: number) => {
     return this.getRequest<ProductEntity>(`/${id}`);

@@ -7,6 +7,10 @@ export class MediaApi extends Api {
         super(apiClient, "/media");
     }
 
+    getFiles = (params?: { per_page?: number }) => {
+      return this.getRequest<MediaFileEntity[]>('/', params);
+    }
+
     uploadFile = (file: File) => {
         const formData = new FormData();
         formData.append("file", file);

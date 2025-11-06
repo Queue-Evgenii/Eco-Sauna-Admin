@@ -74,4 +74,8 @@ export abstract class Translations {
     abstract readonly admin_email: string;
     abstract readonly mail_body: string;
     abstract readonly mail_subject: string;
+
+    abstract readonly image_meta_popup: string;
+    abstract readonly image_meta_alt: string;
+    abstract readonly image_meta_description: string;
 }

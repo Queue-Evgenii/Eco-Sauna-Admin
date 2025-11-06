@@ -76,4 +76,8 @@ export default class EnTranslations extends Translations {
     readonly admin_email = "Admin Email";
     readonly mail_body = "Email Body";
     readonly mail_subject = "Email Subject";
+
+    readonly image_meta_popup = "Image metadata";
+    readonly image_meta_alt = "Alt text, image";
+    readonly image_meta_description = "Description, image";
 }

@@ -25,6 +25,10 @@ export class ProductService {
     private readonly productPriceRepository: Repository<ProductPrice>,
   ) {}
 
+  count(): Promise<number> {
+    return this.productRepository.count();
+  }
+
   async findAll(): Promise<Product[]> {
     return this.productRepository.find({
       relations: ['image', 'gallery', 'gallery.image'],

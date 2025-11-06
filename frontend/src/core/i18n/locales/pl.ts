@@ -18,7 +18,7 @@ export default class PlTranslations extends Translations {
     readonly dashboard = "Panel";
     readonly products = "Sauny";
     readonly orders = "Zamówienia";
-    readonly media = "Медиа";
+    readonly media = "Media";
     readonly settings = "Ustawienia";
 
     readonly mon = "Pn";
@@ -77,4 +77,8 @@ export default class PlTranslations extends Translations {
     readonly admin_email = "Email administratora";
     readonly mail_body = "Treść wiadomości";
     readonly mail_subject = "Temat wiadomości";
+
+    readonly image_meta_popup = "Metadane obrazu";
+    readonly image_meta_alt = "Tekst alternatywny, obraz";
+    readonly image_meta_description = "Opis, obraz";
 }

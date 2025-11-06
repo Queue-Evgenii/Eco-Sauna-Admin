@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/guards/jwt.guard';
@@ -19,10 +20,22 @@ import { UpdateOrderDto } from 'src/models/dto/order/update-order-dto';
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
+  @Get('/count')
+  @UseGuards(JwtAuthGuard)
+  count(): Promise<number> {
+    return this.ordersService.count();
+  }
+
   @Get()
   @UseGuards(JwtAuthGuard)
-  findAll(): Promise<Order[]> {
-    return this.ordersService.findAll();
+  findAll(
+    @Query('per_page') perPage: string,
+    @Query('page') page: string,
+  ): Promise<Order[]> {
+    const perPageNumber = perPage ? parseInt(perPage, 10) : 100;
+    const pageNumber = page ? parseInt(page, 10) : 1;
+
+    return this.ordersService.findAll(perPageNumber, pageNumber);
   }
 
   @Get(':id')

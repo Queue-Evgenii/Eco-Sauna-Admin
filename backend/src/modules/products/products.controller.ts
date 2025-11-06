@@ -19,6 +19,12 @@ import { JwtAuthGuard } from 'src/guards/jwt.guard';
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
+  @Get('/count')
+  @UseGuards(JwtAuthGuard)
+  count(): Promise<number> {
+    return this.productService.count();
+  }
+
   @Get()
   findAll(): Promise<Product[]> {
     return this.productService.findAll();

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, h, inject } from "vue";
+import { ref, onMounted, h, inject, computed } from "vue";
 import {
     NDataTable,
     NButton,
@@ -27,6 +27,7 @@ import type { TranslationsManager } from "@/core/i18n/manager";
 import { useDevice } from "@/composables/use-device";
 import type { MediaFileEntity } from "@/core/types/models/entities/media-file.entity";
 import type { MediaApi } from "@/core/api/modules/media";
+import EditMediaModal from "@/components/content/edit-media-modal.vue";
 
 const productsApi = inject<ProductsApi>("ProductsApi")!;
 const mediaApi = inject<MediaApi>("MediaApi")!;
@@ -65,7 +66,7 @@ const deleteProduct = async () => {
 
 
 // ========= IMAGE MODAL ============
-const viewingImage = ref<MediaFileEntity>();
+const viewingImage = ref<MediaFileEntity | null>(null);
 const imageForm = ref<{ alt_text: string; description: string }>({
     alt_text: "",
     description: "",
@@ -79,31 +80,26 @@ const openImageModal = (image: MediaFileEntity) => {
     };
 };
 
-const closeImageModal = () => {
-    viewingImage.value = undefined;
-};
-
-const saveImageMeta = async () => {
+const saveImageMeta = async (updatedMeta: { alt_text: string; description: string }) => {
     if (!viewingImage.value?.id) return;
     const res = await withErrorHandling(
         mediaApi.updateFile(viewingImage.value.id, {
                 ...viewingImage.value,
-                alt_text: imageForm.value.alt_text,
-                description: imageForm.value.description,
+                alt_text: updatedMeta.alt_text,
+                description: updatedMeta.description,
         })
     );
     const idx = products.value.findIndex(p => p.image?.id === res.id);
     if (idx !== -1 && products.value[idx]) {
         products.value[idx].image = res;
     }
-    closeImageModal();
 };
 
-const columns: DataTableColumns<ProductEntity> = [
+const columns = computed<DataTableColumns<ProductEntity>>(() => ([
     { title: "ID", key: "id" },
-    { title: "Title", key: "title" },
+    { title: t.value?.product_name, key: "title" },
     {
-        title: "Area",
+        title: t.value?.product_area,
         key: "area",
         render(row) {
             return row.area
@@ -112,7 +108,7 @@ const columns: DataTableColumns<ProductEntity> = [
         },
     },
     {
-        title: "Capacity",
+        title: t.value?.product_capacity,
         key: "capacity",
         render(row) {
             return row.capacity
@@ -121,7 +117,7 @@ const columns: DataTableColumns<ProductEntity> = [
         },
     },
     {
-        title: "Max Temp",
+        title: t.value?.product_max_temperature,
         key: "max_temperature",
         render(row) {
             return row.max_temperature
@@ -130,7 +126,7 @@ const columns: DataTableColumns<ProductEntity> = [
         },
     },
     {
-        title: "Image",
+        title: t.value?.product_image,
         key: "image",
         render(row) {
             return row.image
@@ -180,7 +176,7 @@ const columns: DataTableColumns<ProductEntity> = [
                                 { size: "medium", type: "info" },
                                 {
                                     icon: () => h(NIcon, null, { default: () => h(EditFilled) }),
-                                    default: () => "Edit",
+                                    default: () => t.value?.edit,
                                 },
                             ),
                     },
@@ -194,13 +190,13 @@ const columns: DataTableColumns<ProductEntity> = [
                     },
                     {
                         icon: () => h(NIcon, null, { default: () => h(DeleteFilled) }),
-                        default: () => "Delete",
+                        default: () => t.value?.delete,
                     },
                 ),
             ]);
         },
     },
-];
+]));
 </script>
 
 <template>
@@ -214,7 +210,7 @@ const columns: DataTableColumns<ProductEntity> = [
                     style="vertical-align: middle; transform: translateY(1px)"
                 />
             </template>
-            Add Product
+            {{ t?.add }}
         </n-button>
     </router-link>
 
@@ -232,7 +228,6 @@ const columns: DataTableColumns<ProductEntity> = [
                         :src="`${apiURL}/uploads/${product.image?.filename}`"
                         :alt="product.image?.alt_text"
                         style="width: 100%; height: 200px; object-fit: contain"
-                        @click="openImageModal(product.image)"
                     />
                     <n-flex
                         vertical
@@ -247,10 +242,10 @@ const columns: DataTableColumns<ProductEntity> = [
 
                 <h3>{{ product.title }}</h3>
                 <n-flex>
-                    <n-tag type="info" v-if="product.area">Area: {{ product.area }} m²</n-tag>
-                    <n-tag type="info" v-if="product.capacity">Capacity: {{ product.capacity }}</n-tag>
+                    <n-tag type="info" v-if="product.area">{{ t?.product_area }}: {{ product.area }} m²</n-tag>
+                    <n-tag type="info" v-if="product.capacity">{{ t?.product_capacity }}: {{ product.capacity }}</n-tag>
                     <n-tag type="info" v-if="product.max_temperature">
-                        Max Temp: {{ product.max_temperature }}°C
+                        {{ t?.product_max_temperature }}: {{ product.max_temperature }}°C
                     </n-tag>
                 </n-flex>
 
@@ -261,14 +256,14 @@ const columns: DataTableColumns<ProductEntity> = [
                             params: { id: product.id },
                         }"
                     >
-                        <n-button size="large" type="info"> Edit </n-button>
+                        <n-button size="large" type="info">{{ t?.edit }}</n-button>
                     </router-link>
                     <n-button
                         size="large"
                         type="error"
                         @click="openDeleteModal(product)"
                     >
-                        Delete
+                        {{ t?.delete }}
                     </n-button>
                 </n-space>
             </n-card>
@@ -304,39 +299,9 @@ const columns: DataTableColumns<ProductEntity> = [
         </div>
     </n-modal>
 
-    <n-modal
-        v-model:show="viewingImage"
-        preset="card"
-        title="Image Preview & Metadata"
-        style="max-width: 600px"
-        @after-leave="closeImageModal"
-    >
-        <div style="display: flex; flex-direction: column; gap: 1rem">
-            <img
-                v-if="viewingImage"
-                :src="`${apiURL}/uploads/${viewingImage.filename}`"
-                :alt="viewingImage.alt_text"
-                style="width: 100%; height: 400px; border-radius: 8px; object-fit: contain;"
-            />
-
-            <n-form :model="imageForm" label-placement="top">
-                <n-form-item label="Alt text">
-                    <n-input v-model:value="imageForm.alt_text" placeholder="Alt text" />
-                </n-form-item>
-                <n-form-item label="Description">
-                    <n-input
-                        v-model:value="imageForm.description"
-                        type="textarea"
-                        placeholder="Description"
-                        autosize
-                    />
-                </n-form-item>
-            </n-form>
-
-            <div style="display: flex; justify-content: flex-end; gap: 0.5rem">
-                <n-button @click="closeImageModal">Cancel</n-button>
-                <n-button type="primary" @click="saveImageMeta">Save</n-button>
-            </div>
-        </div>
-    </n-modal>
+    <edit-media-modal
+        v-model:modelValue="viewingImage"
+        :apiURL="apiURL"
+        @save="saveImageMeta"
+    />
 </template>

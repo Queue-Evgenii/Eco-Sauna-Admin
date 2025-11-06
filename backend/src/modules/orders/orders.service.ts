@@ -107,10 +107,19 @@ export class OrdersService {
     return savedOrder;
   }
 
-  async findAll(): Promise<Order[]> {
-    return await this.orderRepo.find({
+  count(): Promise<number> {
+    return this.orderRepo.count();
+  }
+
+  async findAll(perPage = 100, page = 1): Promise<Order[]> {
+    const take = perPage;
+    const skip = (page - 1) * perPage;
+
+    return this.orderRepo.find({
       relations: ['product'],
       order: { created_at: 'DESC' },
+      take,
+      skip,
     });
   }
 
