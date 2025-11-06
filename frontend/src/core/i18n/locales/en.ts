@@ -1,6 +1,7 @@
 import { Translations } from "../translations";
 
 export default class EnTranslations extends Translations {
+    readonly save = "Save";
     readonly add = "Add";
     readonly edit = "Edit";
     readonly delete = "Delete";
@@ -29,14 +30,17 @@ export default class EnTranslations extends Translations {
     readonly sun = "Sun";
 
     readonly required = "Field is required";
+    readonly email_invalid = "Invalid email";
     readonly min_length_3 = "Value should be more than 3 symbols";
     readonly min_length_10 = "Value should be more than 10 symbols";
     readonly greater_than_0 = "Value should be more than 0";
 
     readonly fetch_data_error = "Error while loading data";
     readonly post_data_error = "Error while sending data";
+    readonly update_success = "Successfully updated";
+    readonly update_error = "Error while updating data";
 
-    readonly validation_product_error = "Validation error";
+    readonly validation_error = "Validation error";
     
     readonly product_created = "Sauna created";
     readonly product_updated = "Sauna updated";
@@ -64,4 +68,12 @@ export default class EnTranslations extends Translations {
     readonly end_date = "End Date";
     readonly message = "Comment";
     readonly total = "Total Amount";
+
+    readonly order_id = "Order ID";
+    readonly customer_name = "Customer Name";
+    readonly customer_email = "Customer Email";
+    readonly customer_phone = "Customer Phone";
+    readonly admin_email = "Admin Email";
+    readonly mail_body = "Email Body";
+    readonly mail_subject = "Email Subject";
 }

@@ -1,6 +1,7 @@
 import { Translations } from "../translations";
 
 export default class PlTranslations extends Translations {
+    readonly save = "Zapisz";
     readonly add = "Dodaj";
     readonly edit = "Edytuj";
     readonly delete = "Usuń";
@@ -29,14 +30,18 @@ export default class PlTranslations extends Translations {
     readonly sun = "Nd";
 
     readonly required = "Pole jest wymagane";
+    readonly email_invalid = "Niepoprawny email";
     readonly min_length_3 = "Wartość powinna mieć więcej niż 3 znaki";
     readonly min_length_10 = "Wartość powinna mieć więcej niż 10 znaków";
     readonly greater_than_0 = "Wartość powinna być większa niż 0";
 
     readonly fetch_data_error = "Błąd podczas ładowania danych";
     readonly post_data_error = "Błąd podczas wysyłania danych";
+    readonly update_success = "Pomyślnie zaktualizowano";
+    readonly update_error = "Błąd podczas aktualizacji danych";
 
-    readonly validation_product_error = "Błąd walidacji";
+
+    readonly validation_error = "Błąd walidacji";
 
     readonly product_created = "Sauna została utworzona";
     readonly product_updated = "Sauna została zaktualizowana";
@@ -64,4 +69,12 @@ export default class PlTranslations extends Translations {
     readonly end_date = "Data do";
     readonly message = "Komentarz";
     readonly total = "Suma całkowita";
+
+    readonly order_id = "ID zamówienia";
+    readonly customer_name = "Imię klienta";
+    readonly customer_email = "Email klienta";
+    readonly customer_phone = "Telefon klienta";
+    readonly admin_email = "Email administratora";
+    readonly mail_body = "Treść wiadomości";
+    readonly mail_subject = "Temat wiadomości";
 }

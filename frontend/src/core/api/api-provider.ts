@@ -6,6 +6,7 @@ import { UserApi } from "./modules/user";
 import { ProductsApi } from "./modules/products";
 import { MediaApi } from "./modules/media";
 import { OrdersApi } from "./modules/orders";
+import { MailerSettingsApi } from "./modules/mailer-settings";
 
 const apiProvider = {
     install(app: App) {
@@ -29,6 +30,7 @@ const apiProvider = {
         app.provide("ProductsApi", new ProductsApi(apiClient));
         app.provide("OrdersApi", new OrdersApi(apiClient));
         app.provide("MediaApi", new MediaApi(apiClient));
+        app.provide("MailerSettingsApi", new MailerSettingsApi(apiClient));
     },
 };
 

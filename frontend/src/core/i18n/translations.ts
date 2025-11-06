@@ -1,4 +1,5 @@
 export abstract class Translations {
+    abstract readonly save: string;
     abstract readonly add: string;
     abstract readonly edit: string;
     abstract readonly delete: string;
@@ -27,14 +28,17 @@ export abstract class Translations {
     abstract readonly sun: string;
 
     abstract readonly required: string;
+    abstract readonly email_invalid: string;
     abstract readonly min_length_3: string;
     abstract readonly min_length_10: string;
     abstract readonly greater_than_0: string;
 
     abstract readonly fetch_data_error: string;
     abstract readonly post_data_error: string;
+    abstract readonly update_success: string;
+    abstract readonly update_error: string;
 
-    abstract readonly validation_product_error: string;
+    abstract readonly validation_error: string;
 
     abstract readonly product_created: string;
     abstract readonly product_updated: string;
@@ -62,4 +66,12 @@ export abstract class Translations {
     abstract readonly total: string;
     abstract readonly actions: string;
     abstract readonly phone: string;
+
+    abstract readonly order_id: string;
+    abstract readonly customer_name: string;
+    abstract readonly customer_email: string;
+    abstract readonly customer_phone: string;
+    abstract readonly admin_email: string;
+    abstract readonly mail_body: string;
+    abstract readonly mail_subject: string;
 }

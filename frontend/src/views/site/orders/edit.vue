@@ -7,16 +7,14 @@ import {
     OrderStatus,
     type OrderEntity,
 } from "@/core/types/models/entities/order.entity";
-import { AttachmentOutlined } from "@vicons/material";
 import {
     useMessage,
     NCard,
     NDescriptions,
     NDescriptionsItem,
-    NTag,
     NSkeleton,
 } from "naive-ui";
-import { inject, onMounted, ref, computed } from "vue";
+import { inject, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 
 const message = useMessage();
@@ -45,9 +43,9 @@ const updateStatus = async (status: OrderStatus) => {
             ordersApi.updateOrderStatus(orderId, { status }),
         );
         order.value.status = res.status;
-        message.success("Successfully updated");
+        message.success(t.value?.update_success ?? "Успешно сохранено");
     } catch {
-        message.error("Something went wrong");
+        message.error(t.value?.update_error ?? "Ошибка при сохранении");
     }
 };
 

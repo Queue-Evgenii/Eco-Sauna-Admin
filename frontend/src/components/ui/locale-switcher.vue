@@ -12,5 +12,5 @@ const localeOptions = computed(() => availableLocales.map((locale: string) => ({
 </script>
 
 <template>
-    <n-select :value="locale" @update:value="setLocale" :options="localeOptions" style="width: 60px;"></n-select>
+    <n-select :value="locale" @update:value="setLocale" :options="localeOptions" style="width: 66px;"></n-select>
 </template>

@@ -1,6 +1,7 @@
 import { Translations } from "../translations";
 
 export default class RuTranslations extends Translations {
+    readonly save = "Сохранить";
     readonly add = "Добавить";
     readonly edit = "Изменить";
     readonly delete = "Удалить";
@@ -29,14 +30,17 @@ export default class RuTranslations extends Translations {
     readonly sun = "Вс";
 
     readonly required = "Поле обязательно для заполнения";
+    readonly email_invalid = "Некоректный email";
     readonly min_length_3 = "Значение должно содержать больше 3 символов";
     readonly min_length_10 = "Значение должно содержать больше 10 символов";
     readonly greater_than_0 = "Значение должно быть больше 0";
 
     readonly fetch_data_error = "Ошибка при загрузке даных";
     readonly post_data_error = "Ошибка при отправке даных";
+    readonly update_success = "Успешно обновлено";
+    readonly update_error = "Ошибка при обновлении данных";
 
-    readonly validation_product_error = "Ошибка валидации";
+    readonly validation_error = "Ошибка валидации";
 
     readonly product_created = "Сауна создана";
     readonly product_updated = "Сауна обновлена";
@@ -64,4 +68,12 @@ export default class RuTranslations extends Translations {
     readonly end_date = "Дата до";
     readonly message = "Комментарий";
     readonly total = "Сумма итого";
+
+    readonly order_id = "ID заказа";
+    readonly customer_name = "Имя клиента";
+    readonly customer_email = "Email клиента";
+    readonly customer_phone = "Телефон клиента";
+    readonly admin_email = "Email админа";
+    readonly mail_body = "Тело письма";
+    readonly mail_subject = "Тема письма";
 }

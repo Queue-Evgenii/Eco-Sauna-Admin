@@ -9,6 +9,7 @@ import { Order, OrderStatus } from 'src/models/entities/order.entity';
 import { ProductPrice } from 'src/models/entities/product-prices.entity';
 import { Product } from 'src/models/entities/product.entity';
 import { Repository, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
+import { NotificationsService } from './notification.service';
 
 @Injectable()
 export class OrdersService {
@@ -21,6 +22,8 @@ export class OrdersService {
 
     @InjectRepository(ProductPrice)
     private readonly priceRepo: Repository<ProductPrice>,
+
+    private readonly notificationsService: NotificationsService,
   ) {}
 
   async create(data: CreateOrderDto): Promise<Order> {
@@ -97,7 +100,11 @@ export class OrdersService {
       total_price: totalPrice,
     });
 
-    return await this.orderRepo.save(order);
+    const savedOrder = await this.orderRepo.save(order);
+
+    await this.notificationsService.sendOrderCreated(savedOrder);
+
+    return savedOrder;
   }
 
   async findAll(): Promise<Order[]> {

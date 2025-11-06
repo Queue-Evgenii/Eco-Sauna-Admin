@@ -1,4 +1,3 @@
-import TypeOrmDataSource from 'typeorm.config';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -10,6 +9,10 @@ import { MediaModule } from './modules/media/media.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { resolve } from 'path';
 import { OrdersModule } from './modules/orders/orders.module';
+import { MailerModule } from '@nestjs-modules/mailer';
+import TypeOrmDataSource from 'typeorm.config';
+import MailerConfig from 'mailer.config';
+import { SettingsModule } from './modules/settings/settings.module';
 
 @Module({
   imports: [
@@ -21,12 +24,15 @@ import { OrdersModule } from './modules/orders/orders.module';
       }),
     }),
 
+    MailerModule.forRoot(MailerConfig),
+
     UserModule,
     AuthModule,
     TokenModule,
     MediaModule,
     ProductModule,
     OrdersModule,
+    SettingsModule,
 
     ServeStaticModule.forRoot(
       (() => {

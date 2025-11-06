@@ -229,7 +229,7 @@ const submitForm = () => {
     console.log(form.value);
     productForm.value?.validate(async (errors: any) => {
         if (errors) {
-            message.error(t.value?.validation_product_error ?? "");
+            message.error(t.value?.validation_error ?? "Validation error");
             return;
         }
 
