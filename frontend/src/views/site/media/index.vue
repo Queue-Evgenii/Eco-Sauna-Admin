@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, h, inject } from "vue";
+import { ref, onMounted, inject } from "vue";
 import { NCard, NIcon } from "naive-ui";
 import { ImageOutlined } from "@vicons/material";
 import type { MediaFileEntity } from "@/core/types/models/entities/media-file.entity";

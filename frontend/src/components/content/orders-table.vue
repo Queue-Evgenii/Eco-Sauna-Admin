@@ -4,7 +4,6 @@ import {
     NDataTable,
     NButton,
     NTag,
-    NSpace,
     NIcon,
     useThemeVars,
     NSelect,

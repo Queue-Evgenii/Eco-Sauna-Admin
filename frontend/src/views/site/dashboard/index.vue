@@ -8,7 +8,6 @@ import type { TranslationsManager } from '@/core/i18n/manager';
 import type { OrdersApi } from '@/core/api/modules/orders';
 import { withErrorHandling } from '@/core/api/api-error-handler';
 import type { ProductsApi } from '@/core/api/modules/products';
-import type { OrderEntity } from '@/core/types/models/entities/order.entity';
 
 const { t } = inject<TranslationsManager>(TranslationsSymbol)!;
 const ordersApi = inject<OrdersApi>("OrdersApi")!;
@@ -16,7 +15,6 @@ const productsApi = inject<ProductsApi>("ProductsApi")!;
 
 const productsCount = ref<number>(0);
 const ordersCount = ref<number>(0);
-const latestOrders = ref<OrderEntity[]>([]);
 
 onMounted(async () => {
     productsCount.value = await withErrorHandling(productsApi.getProductsCount());

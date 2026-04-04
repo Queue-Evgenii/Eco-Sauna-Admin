@@ -428,7 +428,7 @@ onMounted(fetchProduct);
             <n-space vertical>
                 <n-flex
                     align="center"
-                    v-for="(price, date) in datePrices"
+                    v-for="(_price, date) in datePrices"
                     :key="date"
                 >
                     <n-input :value="date" disabled style="width: 150px" />
