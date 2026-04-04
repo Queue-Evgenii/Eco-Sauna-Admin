@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { inject } from 'vue';
+import { inject, onMounted } from 'vue';
 import { RouterView } from 'vue-router';
 import { useUserStore } from '@/core/stores/user';
 import type { UserApi } from '@/core/api/modules/user';
+import { withErrorHandling } from './core/api/api-error-handler';
 
 const themeOverrides = {
   common: {
@@ -10,13 +11,18 @@ const themeOverrides = {
   },
 };
 
-(async () => {
+onMounted(() => {
   const userStore = useUserStore();
   const userApi = inject<UserApi>('UserApi')!;
 
-  const res = await userApi.getMe();
-  userStore.setUser(res);
-})();
+  withErrorHandling(userApi.getMe())
+    .then(res => {
+      userStore.setUser(res);
+    })
+    .catch(() => {
+      userStore.clearState();
+    })
+})
 </script>
 
 <template>

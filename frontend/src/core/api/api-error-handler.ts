@@ -9,7 +9,7 @@ export const withErrorHandling = <T>(apiCall: Promise<T>): Promise<T> => {
     switch (err.status) {
       case 401:
         Token.remove();
-        if (router.currentRoute.value.path.startsWith('/admin/')) {
+        if (!router.currentRoute.value.path.startsWith('/auth/')) {
           router.push({ name: RouteName.AUTH.SIGN_IN });
         }
         break;
