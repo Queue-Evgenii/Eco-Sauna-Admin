@@ -6,6 +6,8 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    volumes:
+      - uploads:/app/uploads
     depends_on:
       - postgres
     networks:
@@ -39,6 +41,7 @@ services:
 
 volumes:
   pgdata:
+  uploads:
 
 networks:
   app-network:
